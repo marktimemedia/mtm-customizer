@@ -111,7 +111,7 @@ function mtm_customizer_css_styles() {
 	$headerFontBold = ( 'regular' == $headerFont["boldweight"] ) ? '400' : $headerFont["boldweight"];
 	$subheaderFontRegular = ( 'regular' == $subheaderFont["regularweight"] ) ? '400' : $subheaderFont["regularweight"];
 	$subheaderFontBold = ( 'regular' == $subheaderFont["boldweight"] ) ? '400' : $subheaderFont["boldweight"];
-	$bodyFontRegular = ( 'regular' == $subheaderFont["regularweight"] ) ? '400' : $subheaderFont["regularweight"];
+	$bodyFontRegular = ( 'regular' == $bodyFont["regularweight"] ) ? '400' : $bodyFont["regularweight"];
 	$bodyFontBold = ( 'regular' == $bodyFont["boldweight"] ) ? '400' : $bodyFont["boldweight"];
 
 	// General Header styles
