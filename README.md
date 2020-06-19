@@ -1,6 +1,7 @@
 # Site Customizer
 
 Registers some theme options in the customizer
+Thanks to the work done by Anthony Hortin at https://github.com/maddisondesigns/customizer-custom-controls for the huge leg up!
 
 
 ### Theme Settings
@@ -14,7 +15,7 @@ Registers some theme options in the customizer
 
 ##### Site Branding
 * Typography (Google Fonts)
-** Outputs CSS variables --heading-font-family, --subheading-font-family, --body-font-family, --heading-font-weight, --subheading-font-weight, --body-font-weight, --body-font-weight-bold
+* Outputs CSS variables `--heading-font-family, --subheading-font-family, --body-font-family, --heading-font-weight, --subheading-font-weight, --body-font-weight, --body-font-weight-bold`
 
 ##### Header & Footer 
 * Copyright Text (next to copyright year)
