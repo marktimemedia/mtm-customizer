@@ -14,7 +14,7 @@ Thanks to the work done by Anthony Hortin at https://github.com/maddisondesigns/
 * Default Featured Image fallback
 
 ##### Site Branding
-* Typography (Google Fonts)
+* Typography (Google Fonts, loads the proper fonts and weights as links in header)
 * Outputs CSS variables `--heading-font-family, --subheading-font-family, --body-font-family, --heading-font-weight, --subheading-font-weight, --body-font-weight, --body-font-weight-bold`
 
 ##### Header & Footer 
