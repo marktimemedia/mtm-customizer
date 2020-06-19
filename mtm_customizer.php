@@ -24,8 +24,8 @@ if ( ! function_exists( 'mtm_scripts_styles' ) ) {
 		wp_enqueue_style( 'fontawesome' );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'mtm_scripts_styles' );
-add_action( 'customize_controls_print_styles', 'mtm_scripts_styles' );
+// add_action( 'wp_enqueue_scripts', 'mtm_scripts_styles' );
+// add_action( 'customize_controls_print_styles', 'mtm_scripts_styles' );
 
 /**
  * Enqueue scripts for our Customizer preview
@@ -46,12 +46,33 @@ function mtm_add_block_editor_assets() {
 }
 add_action( 'enqueue_block_editor_assets', 'mtm_add_block_editor_assets' );
 
-/** WP Head **/
+
+/** WP Head & Admin Head for Google Fonts **/
 function mtm_add_wp_head_assets() {
 	echo mtm_customizer_css_styles();
 }
 add_action( 'wp_head', 'mtm_add_wp_head_assets' );
 add_action( 'admin_head', 'mtm_add_wp_head_assets' );
+
+
+/**
+ * Additional post label for 404 page
+ */
+function mtm_display_post_states( $states ) {
+	$post = get_post();
+
+	if ( 'page' != $post->post_type ) {
+		return $states;
+	}
+
+	$is_error = get_theme_mod( 'custom_error_page' );
+	if ( $is_error == $post->ID ) {
+		$states['custom_error_page'] = __( '404 Page', 'mtm' );
+	}
+
+	return $states;
+}
+add_filter( 'display_post_states', 'mtm_display_post_states' );
 
 /**
 * Load all our Customizer options

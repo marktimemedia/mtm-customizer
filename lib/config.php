@@ -99,53 +99,49 @@ if ( ! function_exists( 'mtm_generate_defaults' ) ) {
  */
 function mtm_customizer_css_styles() {
 	$defaults = mtm_generate_defaults();
-	$sheet = '';
-	$styles = '';
-  $vars = ':root {';
 	$bodyFont = json_decode( get_theme_mod( 'body_font_select', $defaults['body_font_select'] ), true );
 	$headerFont = json_decode( get_theme_mod( 'heading_font_select', $defaults['heading_font_select'] ), true );
   $subheaderFont = json_decode( get_theme_mod( 'subheading_font_select', $defaults['subheading_font_select'] ), true );
 
+	$sheet = '';
+	$fonts = '';
+  $vars = ':root {';
+
+	$headerFontRegular = ( 'regular' == $headerFont["regularweight"] ) ? '400' : $headerFont["regularweight"];
+	$headerFontBold = ( 'regular' == $headerFont["boldweight"] ) ? '400' : $headerFont["boldweight"];
+	$subheaderFontRegular = ( 'regular' == $subheaderFont["regularweight"] ) ? '400' : $subheaderFont["regularweight"];
+	$subheaderFontBold = ( 'regular' == $subheaderFont["boldweight"] ) ? '400' : $subheaderFont["boldweight"];
+	$bodyFontRegular = ( 'regular' == $subheaderFont["regularweight"] ) ? '400' : $subheaderFont["regularweight"];
+	$bodyFontBold = ( 'regular' == $bodyFont["boldweight"] ) ? '400' : $bodyFont["boldweight"];
+
 	// General Header styles
-  $vars .= "--heading-font-family:" . $headerFont['font'] ."; ";
-  $vars .= "--heading-font-weight:" . ( $headerFont["regularweight"] == "regular" ? "normal" : $headerFont["regularweight"] ) . "; ";
-	$vars .= "--heading-font-weight-bold:" . ( $headerFont["boldweight"] == "regular" ? "normal" : $headerFont["boldweight"] ) . "; ";
-	// $styles .= "h1, h2, h3 {";
-	// $styles .= "font-family:'" . $headerFont['font'] . "'," . $headerFont["category"] . ";";
-	// $styles .= "font-weight:" . ( $headerFont["regularweight"] == "regular" ? "normal" : $headerFont["regularweight"] ) . ";";
-	// $styles .= "}";
+  $vars .= "--heading-font-family:'" . $headerFont['font'] ."'; ";
+  $vars .= "--heading-font-weight:" . $headerFontRegular . "; ";
+	$vars .= "--heading-font-weight-bold:" . $headerFontBold . "; ";
 
   // General SubHeader styles
-  $vars .= "--subheading-font-family:" . $subheaderFont['font'] ."; ";
-  $vars .= "--subheading-font-weight:" . ( $subheaderFont["regularweight"] == "regular" ? "normal" : $subheaderFont["regularweight"] ) . "; ";
-	$vars .= "--subheading-font-weight-bold:" . ( $subheaderFont["boldweight"] == "regular" ? "normal" : $subheaderFont["boldweight"] ) . "; ";
-	// $styles .= "h4, h5, h6 {";
-	// $styles .= "font-family:'" . $subheaderFont['font'] . "'," . $subheaderFont["category"] . ";";
-	// $styles .= "font-weight:" . ( $subheaderFont["regularweight"] == "regular" ? "normal" : $subheaderFont["regularweight"] ) . ";";
-	// $styles .= "}";
+  $vars .= "--subheading-font-family:'" . $subheaderFont['font'] ."'; ";
+  $vars .= "--subheading-font-weight:" . $subheaderFontRegular . "; ";
+	$vars .= "--subheading-font-weight-bold:" . $subheaderFontBold . "; ";
+
 
 	// Body Text styles
-  $vars .= "--body-font-family:" . $bodyFont['font'] ."; ";
-  $vars .= "--body-font-weight:" . ( $bodyFont["regularweight"] == "regular" ? "normal" : $bodyFont["regularweight"] ) . "; ";
-  $vars .= "--body-font-weight-bold:" . ( $bodyFont["boldweight"] == "regular" ? "normal" : $bodyFont["boldweight"] ) . "; ";
+  $vars .= "--body-font-family:'" . $bodyFont['font'] ."'; ";
+  $vars .= "--body-font-weight:" . $bodyFontRegular . "; ";
+  $vars .= "--body-font-weight-bold:" . $bodyFontBold . "; ";
   $vars .= "}";
-	// $styles .= "body, p {";
-	// $styles .= "font-family:'" . $bodyFont['font'] . "'," . $bodyFont["category"] . ";";
-	// $styles .= "font-weight:" . ( $bodyFont["regularweight"] == "regular" ? "normal" : $bodyFont["regularweight"] ) . ";";
-  // $styles .= "}";
-	// $styles .= "em {";
-	// $styles .= "font-style:" . $bodyFont['italicweight'] . ";";
-  // $styles .= "}";
-	// $styles .= "b,strong {";
-	// $styles .= "font-weight:" . $bodyFont['boldweight'] . ";";
-	// $styles .= "}";
 
-	$sheet .= '<script src="https://kit.fontawesome.com/18602cfc5f.js" crossorigin="anonymous"></script>'; // Font Awesome via Site Customizer Kit
-  $sheet .= '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family='.$headerFont['font'].':ital,wght@'.$headerFont["regularweight"].';'.$headerFont['boldweight'].'&display=swap">';
-  $sheet .= '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family='.$subheaderFont['font'].':ital,wght@'.$subheaderFont["regularweight"].';'.$subheaderFont['boldweight'].'&display=swap">';
-  $sheet .= '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family='.$bodyFont['font'].':ital,wght@'.$bodyFont["regularweight"].';'.$bodyFont['boldweight'].'&display=swap">';
+	$bodyFontWeight = !( $bodyFontRegular >= $bodyFontBold ) ? ':ital,wght@' . '0,' . $bodyFontRegular . ';0,' . $bodyFontBold . ';1,' . $bodyFontRegular . ';1,' . $bodyFontBold : ':ital,wght@' . '0,' . $bodyFontRegular . ';1,' . $bodyFontRegular;
+	$subheaderFontWeight = !( $subheaderFontRegular >= $subheaderFontBold ) ? ':wght@' . $subheaderFontRegular . ';' . $subheaderFontBold : ':wght@' . $subheaderFontRegular;
+	$headerFontWeight = !( $headerFontRegular >= $headerFontBold ) ? ':wght@' . $headerFontRegular . ';' . $headerFontBold : ':wght@' . $headerFontRegular;
+
+	$fonts .= '?family=' . str_replace( ' ', '+', $bodyFont['font'] ) . $bodyFontWeight;
+	$fonts .= ( $bodyFont['font'] != $subheaderFont['font'] ) ? '&family=' . str_replace( ' ', '+', $subheaderFont['font'] ) . $subheaderFontWeight : '';
+	$fonts .= ( $subheaderFont['font'] != $headerFont['font'] && $bodyFont['font'] != $headerFont['font'] ) ? '&family=' . str_replace( ' ', '+', $headerFont['font'] ) . $headerFontWeight : '';
+
+	$sheet .= '<script id="font-awesome-kit" src="https://kit.fontawesome.com/18602cfc5f.js" crossorigin="anonymous"></script>'; // Font Awesome via Site Customizer Kit
+  $sheet .= '<link id="customizer-google-fonts" rel="stylesheet" href="https://fonts.googleapis.com/css2'.$fonts.'&display=swap">';
   $sheet .= '<style id="customizer-font-variables"> ' . $vars . ' </style>';
-  // $sheet .= '<style id="customizer-font-css" type="text/css"> ' . $styles . ' </style>';
 
 	return $sheet;
 }

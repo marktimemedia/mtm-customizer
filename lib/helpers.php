@@ -134,23 +134,6 @@ if( !function_exists( 'the_mtm_footer_text' ) ) {
 
 
 /**
-* Social Icons Shortcode for use in content or widgets
-*/
-
-function social_icon_shortcode( $atts ) {
-  $a = shortcode_atts( array(
-        'prepend' => '',
-        'showtext' => false,
-        // ...etc
-    ), $atts );
-  ob_start();
-  the_mtm_social_icons( $a['prepend'], $a['showtext'] );
-  return ob_get_clean();
-}
-
-add_shortcode( 'social_icons', 'social_icon_shortcode' );
-
-/**
 * Outputs the post thumbnail with fallback for the default image
 */
 if( !function_exists( 'the_mtm_post_thumbnail' ) ) {
@@ -169,6 +152,7 @@ if( !function_exists( 'the_mtm_post_thumbnail' ) ) {
 		endif;
 	}
 }
+
 
 /**
 * Outputs the post thumbnail with fallback for the first inline image, then the default image
