@@ -10,7 +10,7 @@ if( !empty($block['align']) ) {
    $classes .= ' align' . $block['align'];
 }
 ?>
-<header class="page--header "<?php echo $classes; ?>>
+<header class="page--header <?php echo $classes; ?>">
     <h1 class="page--title">
         <?php
         if( function_exists('spring_title') ) :

@@ -16,32 +16,9 @@ function mtm_is_woocommerce_active() {
 /**
 * Check Block Registry if a block exists
 */
-function mtm_check_block_registry( $name ) { // return 1 or nothing
-  return WP_Block_Type_Registry::get_instance()->is_registered( $name );
-}
-
-/**
-* Output header logo inside image tag, with link to homepage
-* Optionally specify image size and class
-*/
-if( !function_exists( 'the_mtm_header_logo' ) ) {
-	function the_mtm_header_logo( $path = '', $class = 'header-logo', $size = 'large' ) {
-
-			if ( has_custom_logo() ) { // make sure field value exists
-
-				$alt = get_bloginfo( 'name' );
-				$custom_logo_id = get_theme_mod( 'custom_logo' );
-				$thumb = wp_get_attachment_image_src( $custom_logo_id , $size );
-				?>
-
-				<a href="<?php echo esc_url( home_url( $path ) ); ?>"><img class="<?php echo $class ?>" src="<?php echo esc_url( $thumb[0] ); ?>" alt="<?php echo esc_attr( $alt ); ?>" /></a>
-
-			<?php } else { // If nothing else is entered, show the blog name as usual ?>
-
-				<a href="<?php echo esc_url( home_url( $path ) ); ?>"><?php bloginfo( 'name' ); ?></a>
-
-			<?php }
-
+if( !function_exists( 'mtm_check_block_registry' ) ) {
+	function mtm_check_block_registry( $name ) { // return 1 or nothing
+	  return WP_Block_Type_Registry::get_instance()->is_registered( $name );
 	}
 }
 
@@ -62,6 +39,36 @@ if( !function_exists( 'the_mtm_mobile_logo' ) ) {
 			<a href="<?php echo esc_url( home_url( $path ) ); ?>"><img class="<?php echo $class; ?>" src="<?php echo esc_url( $thumb2[0] ); ?>" alt="<?php echo esc_attr( $alt2 ); ?>" /></a>
 
 		<?php endif;
+	}
+}
+
+/**
+* Output header logo inside image tag, with link to homepage
+* Optionally specify image size and class
+*/
+if( !function_exists( 'the_mtm_header_logo' ) ) {
+	function the_mtm_header_logo( $path = '', $class = 'header-logo', $size = 'large' ) {
+
+			if ( has_custom_logo() ) { // make sure field value exists
+
+				$alt = get_bloginfo( 'name' );
+				$custom_logo_id = get_theme_mod( 'custom_logo' );
+				$thumb = wp_get_attachment_image_src( $custom_logo_id , $size );
+
+				if ( get_theme_mod( 'mtm_mobile_logo') ) {
+					$class = 'header-logo hide-mobile';
+				}
+				?>
+
+				<a href="<?php echo esc_url( home_url( $path ) ); ?>"><img class="<?php echo $class ?>" src="<?php echo esc_url( $thumb[0] ); ?>" alt="<?php echo esc_attr( $alt ); ?>" /></a>
+				<?php the_mtm_mobile_logo() ?>
+
+			<?php } else { // If nothing else is entered, show the blog name as usual ?>
+
+				<a href="<?php echo esc_url( home_url( $path ) ); ?>"><?php bloginfo( 'name' ); ?></a>
+
+			<?php }
+
 	}
 }
 
@@ -255,7 +262,7 @@ if ( ! function_exists( 'mtm_get_phone_number' ) ) {
 		$contact_phone = get_theme_mod( 'contact_phone', $defaults['contact_phone'] );
 		if( !empty( $contact_phone ) ) {
 			return sprintf( '<span class="%1$s"><a href="tel:%3$s" aria-label="Phone Number"><i class="%2$s"></i>%3$s</a></span>',
-				'phone',
+				'button-phone',
 				'fas fa-phone fa-flip-horizontal',
 				$contact_phone
 			);
