@@ -3,7 +3,7 @@
 	Plugin Name: Site Customizer
 	Description: Customizer Settings for your base theme
 	Author: Marktime Media
-	Version: 1.0.1
+	Version: 1.0.2
 	Author URI: http://marktimemedia.com
  */
 

@@ -94,9 +94,8 @@ if( !function_exists( 'the_mtm_footer_logo' ) ) {
 /**
 * Outputs additional header text
 */
-if( !function_exists( 'the_mtm_header_text' ) ) {
-	function the_mtm_header_text() {
-		$defaults = mtm_generate_defaults();
+if( !function_exists( 'get_mtm_header_text' ) ) {
+	function get_mtm_header_text() {
 		// wpautop this so that it acts like the new visual text widget, since we're using the same TinyMCE control
 		return wpautop( get_theme_mod( 'header_extra_text', $defaults['header_extra_text'] ) );
 	}
@@ -130,9 +129,8 @@ if( !function_exists( 'the_mtm_footer_copyright' ) ) {
 /**
 * Outputs additional footer text
 */
-if( !function_exists( 'the_mtm_footer_text' ) ) {
-	function the_mtm_footer_text() {
-		$defaults = mtm_generate_defaults();
+if( !function_exists( 'get_mtm_footer_text' ) ) {
+	function get_mtm_footer_text() {
 		// wpautop this so that it acts like the new visual text widget, since we're using the same TinyMCE control
 		return wpautop( get_theme_mod( 'footer_text', $defaults['footer_text'] ) );
 	}

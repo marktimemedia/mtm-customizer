@@ -431,7 +431,7 @@ class mtm_initialise_customizer_settings {
 			array(
 				'selector' => '.header--extra-text',
 				'container_inclusive' => false,
-				'render_callback' => 'the_mtm_header_text',
+				'render_callback' => 'get_mtm_header_text',
 				'fallback_refresh' => false,
 			)
 		);
@@ -484,7 +484,7 @@ class mtm_initialise_customizer_settings {
 			array(
 				'selector' => '.footer--extra-text',
 				'container_inclusive' => false,
-				'render_callback' => 'the_mtm_footer_text',
+				'render_callback' => 'get_mtm_footer_text',
 				'fallback_refresh' => false,
 			)
 		);
