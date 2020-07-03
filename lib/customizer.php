@@ -66,6 +66,15 @@ class mtm_initialise_customizer_settings {
 		/**
 		 * Add our Social Icons Section to the Header & Navigation Panel
 		 */
+		 $wp_customize->add_section( 'type_section',
+	     array(
+	       'title' => __( 'Typography', 'mtm' ),
+	       'description' => esc_html__( '', 'mtm' ),
+	       'panel' => 'site_branding_panel',
+				 'priority' => 10,
+	     )
+	   );
+
 		$wp_customize->add_section( 'social_icons_section',
 			array(
 				'title' => __( 'Social Icons', 'mtm' ),
@@ -233,7 +242,7 @@ class mtm_initialise_customizer_settings {
 	            'settings' => 'mtm_default_image',
 	            'section'  => 'header_image',
 							'height'        => [300]['height'],
-							'width'         => [300]['width'],
+							'width'         => [600]['width'],
 							'flex_height'   => true,
 							'flex_width'    => true,
 							'priority' => 62,
