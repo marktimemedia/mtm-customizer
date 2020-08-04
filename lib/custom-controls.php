@@ -4,17 +4,17 @@
  *
  */
 
-function mtm_customize_register( $wp_customize) {
+function mtm_customize_register( $wp_customize ) {
 	/**
-	 * Custom Control Base Class
-	 *
-	 * @author Anthony Hortin <http://maddisondesigns.com>
-	 * @license http://www.gnu.org/licenses/gpl-2.0.html
-	 * @link https://github.com/maddisondesigns
-	 */
+	* Custom Control Base Class
+	*
+	* @author Anthony Hortin <http://maddisondesigns.com>
+	* @license http://www.gnu.org/licenses/gpl-2.0.html
+	* @link https://github.com/maddisondesigns
+	*/
 	class Mtm_Custom_Control extends WP_Customize_Control {
 		protected function get_mtm_resource_url() {
-			if( strpos( wp_normalize_path( __DIR__ ), wp_normalize_path( WP_PLUGIN_DIR ) ) === 0 ) {
+			if ( strpos( wp_normalize_path( __DIR__ ), wp_normalize_path( WP_PLUGIN_DIR ) ) === 0 ) {
 				// We're in a plugin directory and need to determine the url accordingly.
 				return plugin_dir_url( __DIR__ );
 			}
@@ -32,7 +32,7 @@ function mtm_customize_register( $wp_customize) {
 	 */
 	class Mtm_Custom_Section extends WP_Customize_Section {
 		protected function get_mtm_resource_url() {
-			if( strpos( wp_normalize_path( __DIR__ ), wp_normalize_path( WP_PLUGIN_DIR ) ) === 0 ) {
+			if ( strpos( wp_normalize_path( __DIR__ ), wp_normalize_path( WP_PLUGIN_DIR ) ) === 0 ) {
 				// We're in a plugin directory and need to determine the url accordingly.
 				return plugin_dir_url( __DIR__ );
 			}
@@ -42,56 +42,55 @@ function mtm_customize_register( $wp_customize) {
 	}
 
 	/**
-	 * Image Checkbox Custom Control
-	 *
-	 * @author Anthony Hortin <http://maddisondesigns.com>
-	 * @license http://www.gnu.org/licenses/gpl-2.0.html
-	 * @link https://github.com/maddisondesigns
-	 */
-	 class Mtm_Image_Checkbox_Custom_Control extends Mtm_Custom_Control {
+	* Image Checkbox Custom Control
+	*
+	* @author Anthony Hortin <http://maddisondesigns.com>
+	* @license http://www.gnu.org/licenses/gpl-2.0.html
+	* @link https://github.com/maddisondesigns
+	*/
+	class Mtm_Image_Checkbox_Custom_Control extends Mtm_Custom_Control {
 		/**
-		 * The type of control being rendered
-		 */
+		* The type of control being rendered
+		*/
 		public $type = 'image_checkbox';
 		/**
-		 * Enqueue our scripts and styles
-		 */
+		* Enqueue our scripts and styles
+		*/
 		public function enqueue() {
 			wp_enqueue_style( 'mtm-custom-controls-css', $this->get_mtm_resource_url() . 'css/customizer.css', array(), '1.0', 'all' );
 		}
 		/**
-		 * Render the control in the customizer
-		 */
-		public function render_content() {
-		?>
+		* Render the control in the customizer
+		*/
+		public function render_content() { ?>
 			<div class="image_checkbox_control">
-				<?php if( !empty( $this->label ) ) { ?>
+				<?php if ( ! empty( $this->label ) ) { ?>
 					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 				<?php } ?>
-				<?php if( !empty( $this->description ) ) { ?>
+				<?php if ( ! empty( $this->description ) ) { ?>
 					<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
 				<?php } ?>
-				<?php	$chkboxValues = explode( ',', esc_attr( $this->value() ) ); ?>
+				<?php	$chkbox_values = explode( ',', esc_attr( $this->value() ) ); ?>
 				<input type="hidden" id="<?php echo esc_attr( $this->id ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" class="customize-control-multi-image-checkbox" <?php $this->link(); ?> />
 				<?php foreach ( $this->choices as $key => $value ) { ?>
 					<label class="checkbox-label">
-						<input type="checkbox" name="<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $key ); ?>" <?php checked( in_array( esc_attr( $key ), $chkboxValues ), 1 ); ?> class="multi-image-checkbox"/>
+						<input type="checkbox" name="<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $key ); ?>" <?php checked( in_array( esc_attr( $key ), $chkbox_values, true ), 1 ); ?> class="multi-image-checkbox"/>
 						<img src="<?php echo esc_attr( $value['image'] ); ?>" alt="<?php echo esc_attr( $value['name'] ); ?>" title="<?php echo esc_attr( $value['name'] ); ?>" />
 					</label>
 				<?php	} ?>
 			</div>
-		<?php
+			<?php
 		}
 	}
 
 	/**
-	 * Text Radio Button Custom Control
-	 *
-	 * @author Anthony Hortin <http://maddisondesigns.com>
-	 * @license http://www.gnu.org/licenses/gpl-2.0.html
-	 * @link https://github.com/maddisondesigns
-	 */
-	 class Mtm_Text_Radio_Button_Custom_Control extends Mtm_Custom_Control {
+	* Text Radio Button Custom Control
+	*
+	* @author Anthony Hortin <http://maddisondesigns.com>
+	* @license http://www.gnu.org/licenses/gpl-2.0.html
+	* @link https://github.com/maddisondesigns
+	*/
+	class Mtm_Text_Radio_Button_Custom_Control extends Mtm_Custom_Control {
 		/**
 		 * The type of control being rendered
 		 */
@@ -106,12 +105,12 @@ function mtm_customize_register( $wp_customize) {
 		 * Render the control in the customizer
 		 */
 		public function render_content() {
-		?>
+			?>
 			<div class="text_radio_button_control">
-				<?php if( !empty( $this->label ) ) { ?>
+				<?php if ( ! empty( $this->label ) ) { ?>
 					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 				<?php } ?>
-				<?php if( !empty( $this->description ) ) { ?>
+				<?php if ( ! empty( $this->description ) ) { ?>
 					<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
 				<?php } ?>
 
@@ -124,21 +123,21 @@ function mtm_customize_register( $wp_customize) {
 					<?php	} ?>
 				</div>
 			</div>
-		<?php
+			<?php
 		}
 	}
 
 	/**
-	 * Image Radio Button Custom Control
-	 *
-	 * @author Anthony Hortin <http://maddisondesigns.com>
-	 * @license http://www.gnu.org/licenses/gpl-2.0.html
-	 * @link https://github.com/maddisondesigns
-	 */
+	* Image Radio Button Custom Control
+	*
+	* @author Anthony Hortin <http://maddisondesigns.com>
+	* @license http://www.gnu.org/licenses/gpl-2.0.html
+	* @link https://github.com/maddisondesigns
+	*/
 	class Mtm_Image_Radio_Button_Custom_Control extends Mtm_Custom_Control {
 		/**
-		 * The type of control being rendered
-		 */
+		* The type of control being rendered
+		*/
 		public $type = 'image_radio_button';
 		/**
 		 * Enqueue our scripts and styles
@@ -147,15 +146,15 @@ function mtm_customize_register( $wp_customize) {
 			wp_enqueue_style( 'mtm-custom-controls-css', $this->get_mtm_resource_url() . 'css/customizer.css', array(), '1.0', 'all' );
 		}
 		/**
-		 * Render the control in the customizer
-		 */
+		* Render the control in the customizer
+		*/
 		public function render_content() {
-		?>
+			?>
 			<div class="image_radio_button_control">
-				<?php if( !empty( $this->label ) ) { ?>
+				<?php if ( ! empty( $this->label ) ) { ?>
 					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 				<?php } ?>
-				<?php if( !empty( $this->description ) ) { ?>
+				<?php if ( ! empty( $this->description ) ) { ?>
 					<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
 				<?php } ?>
 
@@ -166,7 +165,7 @@ function mtm_customize_register( $wp_customize) {
 					</label>
 				<?php	} ?>
 			</div>
-		<?php
+			<?php
 		}
 	}
 
@@ -194,38 +193,37 @@ function mtm_customize_register( $wp_customize) {
 		 */
 		public function render_content() {
 			$allowed_html = array(
-				'a' => array(
-					'href' => array(),
-					'title' => array(),
-					'class' => array(),
+				'a'      => array(
+					'href'   => array(),
+					'title'  => array(),
+					'class'  => array(),
 					'target' => array(),
 				),
-				'br' => array(),
-				'em' => array(),
+				'br'     => array(),
+				'em'     => array(),
 				'strong' => array(),
-				'i' => array(
-					'class' => array()
+				'i'      => array(
+					'class' => array(),
 				),
 			);
-		?>
+			?>
 			<div class="single-accordion-custom-control">
 				<div class="single-accordion-toggle"><?php echo esc_html( $this->label ); ?><span class="accordion-icon-toggle dashicons dashicons-plus"></span></div>
 				<div class="single-accordion customize-control-description">
 					<?php
-						if ( is_array( $this->description ) ) {
-							echo '<ul class="single-accordion-description">';
-							foreach ( $this->description as $key => $value ) {
-								echo '<li>' . $key . wp_kses( $value, $allowed_html ) . '</li>';
-							}
-							echo '</ul>';
+					if ( is_array( $this->description ) ) {
+						echo '<ul class="single-accordion-description">';
+						foreach ( $this->description as $key => $value ) {
+							echo '<li>' . esc_attr( $key ) . wp_kses( $value, $allowed_html ) . '</li>';
 						}
-						else {
-							echo wp_kses( $this->description, $allowed_html );
-						}
-				  ?>
+						echo '</ul>';
+					} else {
+						echo wp_kses( $this->description, $allowed_html );
+					}
+					?>
 				</div>
 			</div>
-		<?php
+			<?php
 		}
 	}
 
@@ -246,33 +244,33 @@ function mtm_customize_register( $wp_customize) {
 		 */
 		public function render_content() {
 			$allowed_html = array(
-				'a' => array(
-					'href' => array(),
-					'title' => array(),
-					'class' => array(),
+				'a'      => array(
+					'href'   => array(),
+					'title'  => array(),
+					'class'  => array(),
 					'target' => array(),
 				),
-				'br' => array(),
-				'em' => array(),
+				'br'     => array(),
+				'em'     => array(),
 				'strong' => array(),
-				'i' => array(
-					'class' => array()
-				),
-				'span' => array(
+				'i'      => array(
 					'class' => array(),
 				),
-				'code' => array(),
+				'span'   => array(
+					'class' => array(),
+				),
+				'code'   => array(),
 			);
-		?>
+			?>
 			<div class="simple-notice-custom-control">
-				<?php if( !empty( $this->label ) ) { ?>
+				<?php if ( ! empty( $this->label ) ) { ?>
 					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 				<?php } ?>
-				<?php if( !empty( $this->description ) ) { ?>
+				<?php if ( ! empty( $this->description ) ) { ?>
 					<span class="customize-control-description"><?php echo wp_kses( $this->description, $allowed_html ); ?></span>
 				<?php } ?>
 			</div>
-		<?php
+			<?php
 		}
 	}
 
@@ -299,12 +297,12 @@ function mtm_customize_register( $wp_customize) {
 		 * Render the control in the customizer
 		 */
 		public function render_content() {
-		?>
+			?>
 			<div class="slider-custom-control">
 				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span><input type="number" id="<?php echo esc_attr( $this->id ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" class="customize-control-slider-value" <?php $this->link(); ?> />
 				<div class="slider" slider-min-value="<?php echo esc_attr( $this->input_attrs['min'] ); ?>" slider-max-value="<?php echo esc_attr( $this->input_attrs['max'] ); ?>" slider-step-value="<?php echo esc_attr( $this->input_attrs['step'] ); ?>"></div><span class="slider-reset dashicons dashicons-image-rotate" slider-reset-value="<?php echo esc_attr( $this->value() ); ?>"></span>
 			</div>
-		<?php
+			<?php
 		}
 	}
 
@@ -323,28 +321,33 @@ function mtm_customize_register( $wp_customize) {
 		/**
 		 * Enqueue our scripts and styles
 		 */
-		public function enqueue(){
+		public function enqueue() {
 			wp_enqueue_style( 'mtm-custom-controls-css', $this->get_mtm_resource_url() . 'css/customizer.css', array(), '1.0', 'all' );
 		}
 		/**
 		 * Render the control in the customizer
 		 */
-		public function render_content(){
-		?>
+		public function render_content() {
+			?>
 			<div class="toggle-switch-control">
 				<div class="toggle-switch">
-					<input type="checkbox" id="<?php echo esc_attr($this->id); ?>" name="<?php echo esc_attr($this->id); ?>" class="toggle-switch-checkbox" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); checked( $this->value() ); ?>>
+					<input type="checkbox" id="<?php echo esc_attr( $this->id ); ?>" name="<?php echo esc_attr( $this->id ); ?>" class="toggle-switch-checkbox" value="<?php echo esc_attr( $this->value() ); ?>"
+					<?php
+					$this->link();
+					checked( $this->value() );
+					?>
+					>
 					<label class="toggle-switch-label" for="<?php echo esc_attr( $this->id ); ?>">
 						<span class="toggle-switch-inner"></span>
 						<span class="toggle-switch-switch"></span>
 					</label>
 				</div>
 				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-				<?php if( !empty( $this->description ) ) { ?>
+				<?php if ( ! empty( $this->description ) ) { ?>
 					<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
 				<?php } ?>
 			</div>
-		<?php
+			<?php
 		}
 	}
 
@@ -370,7 +373,8 @@ function mtm_customize_register( $wp_customize) {
 		public function __construct( $manager, $id, $args = array(), $options = array() ) {
 			parent::__construct( $manager, $id, $args );
 			// Merge the passed button labels with our default labels
-			$this->button_labels = wp_parse_args( $this->button_labels,
+			$this->button_labels = wp_parse_args(
+				$this->button_labels,
 				array(
 					'add' => __( 'Add', 'mtm' ),
 				)
@@ -387,12 +391,12 @@ function mtm_customize_register( $wp_customize) {
 		 * Render the control in the customizer
 		 */
 		public function render_content() {
-		?>
-		  <div class="sortable_repeater_control">
-				<?php if( !empty( $this->label ) ) { ?>
+			?>
+			<div class="sortable_repeater_control">
+				<?php if ( ! empty( $this->label ) ) { ?>
 					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 				<?php } ?>
-				<?php if( !empty( $this->description ) ) { ?>
+				<?php if ( ! empty( $this->description ) ) { ?>
 					<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
 				<?php } ?>
 				<input type="hidden" id="<?php echo esc_attr( $this->id ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" class="customize-control-sortable-repeater" <?php $this->link(); ?> />
@@ -401,9 +405,9 @@ function mtm_customize_register( $wp_customize) {
 						<input type="text" value="" class="repeater-input" placeholder="https://" /><span class="dashicons dashicons-sort"></span><a class="customize-control-sortable-repeater-delete" href="#"><span class="dashicons dashicons-no-alt"></span></a>
 					</div>
 				</div>
-				<button class="button customize-control-sortable-repeater-add" type="button"><?php echo $this->button_labels['add']; ?></button>
+				<button class="button customize-control-sortable-repeater-add" type="button"><?php echo wp_kses_post( $this->button_labels['add'] ); ?></button>
 			</div>
-		<?php
+			<?php
 		}
 	}
 
@@ -454,53 +458,50 @@ function mtm_customize_register( $wp_customize) {
 		 * Render the control in the customizer
 		 */
 		public function render_content() {
-			$defaultValue = $this->value();
+			$default_value = $this->value();
 			if ( $this->multiselect ) {
-				$defaultValue = explode( ',', $this->value() );
+				$default_value = explode( ',', $this->value() );
 			}
-		?>
+			?>
 			<div class="dropdown_select2_control">
-				<?php if( !empty( $this->label ) ) { ?>
+				<?php if ( ! empty( $this->label ) ) { ?>
 					<label for="<?php echo esc_attr( $this->id ); ?>" class="customize-control-title">
 						<?php echo esc_html( $this->label ); ?>
 					</label>
 				<?php } ?>
-				<?php if( !empty( $this->description ) ) { ?>
+				<?php if ( ! empty( $this->description ) ) { ?>
 					<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
 				<?php } ?>
 				<input type="hidden" id="<?php echo esc_attr( $this->id ); ?>" class="customize-control-dropdown-select2" value="<?php echo esc_attr( $this->value() ); ?>" name="<?php echo esc_attr( $this->id ); ?>" <?php $this->link(); ?> />
-				<select name="select2-list-<?php echo ( $this->multiselect ? 'multi[]' : 'single' ); ?>" class="customize-control-select2" data-placeholder="<?php echo $this->placeholder; ?>" <?php echo ( $this->multiselect ? 'multiple="multiple" ' : '' ); ?>>
+				<select name="select2-list-<?php echo ( $this->multiselect ? 'multi[]' : 'single' ); ?>" class="customize-control-select2" data-placeholder="<?php echo esc_attr( $this->placeholder ); ?>" <?php echo ( $this->multiselect ? 'multiple="multiple" ' : '' ); ?>>
 					<?php
-						if ( !$this->multiselect ) {
-							// When using Select2 for single selection, the Placeholder needs an empty <option> at the top of the list for it to work (multi-selects dont need this)
-							echo '<option></option>';
-						}
-						foreach ( $this->choices as $key => $value ) {
-							if ( is_array( $value ) ) {
-								echo '<optgroup label="' . esc_attr( $key ) . '">';
-								foreach ( $value as $optgroupkey => $optgroupvalue ) {
-									if( $this->multiselect ){
-										echo '<option value="' . esc_attr( $optgroupkey ) . '" ' . ( in_array( esc_attr( $optgroupkey ), $defaultValue ) ? 'selected="selected"' : '' ) . '>' . esc_attr( $optgroupvalue ) . '</option>';
-									}
-									else{
-										echo '<option value="' . esc_attr( $optgroupkey ) . '" ' . selected( esc_attr( $optgroupkey ), $defaultValue, false )  . '>' . esc_attr( $optgroupvalue ) . '</option>';
-									}
-								}
-								echo '</optgroup>';
-							}
-							else {
-								if( $this->multiselect ){
-									echo '<option value="' . esc_attr( $key ) . '" ' . ( in_array( esc_attr( $key ), $defaultValue ) ? 'selected="selected"' : '' ) . '>' . esc_attr( $value ) . '</option>';
-								}
-								else{
-									echo '<option value="' . esc_attr( $key ) . '" ' . selected( esc_attr( $key ), $defaultValue, false )  . '>' . esc_attr( $value ) . '</option>';
+					if ( ! $this->multiselect ) {
+						// When using Select2 for single selection, the Placeholder needs an empty <option> at the top of the list for it to work (multi-selects dont need this)
+						echo '<option></option>';
+					}
+					foreach ( $this->choices as $key => $value ) {
+						if ( is_array( $value ) ) {
+							echo '<optgroup label="' . esc_attr( $key ) . '">';
+							foreach ( $value as $optgroupkey => $optgroupvalue ) {
+								if ( $this->multiselect ) {
+									echo '<option value="' . esc_attr( $optgroupkey ) . '" ' . ( in_array( esc_attr( $optgroupkey ), $default_value, true ) ? 'selected="selected"' : '' ) . '>' . esc_attr( $optgroupvalue ) . '</option>';
+								} else {
+									echo '<option value="' . esc_attr( $optgroupkey ) . '" ' . selected( esc_attr( $optgroupkey ), $default_value, false ) . '>' . esc_attr( $optgroupvalue ) . '</option>';
 								}
 							}
+							echo '</optgroup>';
+						} else {
+							if ( $this->multiselect ) {
+								echo '<option value="' . esc_attr( $key ) . '" ' . ( in_array( esc_attr( $key ), $default_value, true ) ? 'selected="selected"' : '' ) . '>' . esc_attr( $value ) . '</option>';
+							} else {
+								echo '<option value="' . esc_attr( $key ) . '" ' . selected( esc_attr( $key ), $default_value, false ) . '>' . esc_attr( $value ) . '</option>';
+							}
 						}
+					}
 					?>
 				</select>
 			</div>
-		<?php
+			<?php
 		}
 	}
 
@@ -532,31 +533,32 @@ function mtm_customize_register( $wp_customize) {
 		 * Render the control in the customizer
 		 */
 		public function render_content() {
-		?>
+			?>
 			<div class="dropdown_posts_control">
-				<?php if( !empty( $this->label ) ) { ?>
+				<?php if ( ! empty( $this->label ) ) { ?>
 					<label for="<?php echo esc_attr( $this->id ); ?>" class="customize-control-title">
 						<?php echo esc_html( $this->label ); ?>
 					</label>
 				<?php } ?>
-				<?php if( !empty( $this->description ) ) { ?>
+				<?php if ( ! empty( $this->description ) ) { ?>
 					<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
 				<?php } ?>
-				<select name="<?php echo $this->id; ?>" id="<?php echo $this->id; ?>" <?php $this->link(); ?>>
+				<select name="<?php echo esc_attr( $this->id ); ?>" id="<?php echo esc_attr( $this->id ); ?>" <?php $this->link(); ?>>
 					<?php
-						if( !empty( $this->posts ) ) {
-							foreach ( $this->posts as $post ) {
-								printf( '<option value="%s" %s>%s</option>',
-									$post->ID,
-									selected( $this->value(), $post->ID, false ),
-									$post->post_title
-								);
-							}
+					if ( ! empty( $this->posts ) ) {
+						foreach ( $this->posts as $post ) {
+							printf(
+								'<option value="%s" %s>%s</option>',
+								esc_attr( $post->ID ),
+								selected( $this->value(), $post->ID, false ),
+								esc_html( $post->post_title ),
+							);
 						}
+					}
 					?>
 				</select>
 			</div>
-		<?php
+			<?php
 		}
 	}
 
@@ -567,7 +569,7 @@ function mtm_customize_register( $wp_customize) {
 	 * @license http://www.gnu.org/licenses/gpl-2.0.html
 	 * @link https://github.com/maddisondesigns
 	 */
-	class Mtm_TinyMCE_Custom_control extends Mtm_Custom_Control {
+	class Mtm_TinyMCE_Custom_Control extends Mtm_Custom_Control {
 		/**
 		 * The type of control being rendered
 		 */
@@ -575,7 +577,7 @@ function mtm_customize_register( $wp_customize) {
 		/**
 		 * Enqueue our scripts and styles
 		 */
-		public function enqueue(){
+		public function enqueue() {
 			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer.js', array( 'jquery' ), '1.0', true );
 			wp_enqueue_style( 'mtm-custom-controls-css', $this->get_mtm_resource_url() . 'css/customizer.css', array(), '1.0', 'all' );
 			wp_enqueue_editor();
@@ -587,21 +589,21 @@ function mtm_customize_register( $wp_customize) {
 			parent::to_json();
 			$this->json['mtmtinymcetoolbar1'] = isset( $this->input_attrs['toolbar1'] ) ? esc_attr( $this->input_attrs['toolbar1'] ) : 'bold italic bullist numlist alignleft aligncenter alignright link';
 			$this->json['mtmtinymcetoolbar2'] = isset( $this->input_attrs['toolbar2'] ) ? esc_attr( $this->input_attrs['toolbar2'] ) : '';
-			$this->json['mtmmediabuttons'] = isset( $this->input_attrs['mediaButtons'] ) && ( $this->input_attrs['mediaButtons'] === true ) ? true : false;
+			$this->json['mtmmediabuttons']    = isset( $this->input_attrs['mediaButtons'] ) && ( true === $this->input_attrs['mediaButtons'] ) ? true : false;
 		}
 		/**
 		 * Render the control in the customizer
 		 */
-		public function render_content(){
-		?>
+		public function render_content() {
+			?>
 			<div class="tinymce-control">
 				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-				<?php if( !empty( $this->description ) ) { ?>
+				<?php if ( ! empty( $this->description ) ) { ?>
 					<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
 				<?php } ?>
 				<textarea id="<?php echo esc_attr( $this->id ); ?>" class="customize-control-tinymce-editor" <?php $this->link(); ?>><?php echo esc_attr( $this->value() ); ?></textarea>
 			</div>
-		<?php
+			<?php
 		}
 	}
 
@@ -620,23 +622,23 @@ function mtm_customize_register( $wp_customize) {
 		/**
 		 * The list of Google Fonts
 		 */
-		private $fontList = false;
+		private $font_list = false;
 		/**
 		 * The saved font values decoded from json
 		 */
-		private $fontValues = [];
+		private $font_values = [];
 		/**
 		 * The index of the saved font within the list of Google fonts
 		 */
-		private $fontListIndex = 0;
+		private $font_list_index = 0;
 		/**
 		 * The number of fonts to display from the json file. Either positive integer or 'all'. Default = 'all'
 		 */
-		private $fontCount = 'all';
+		private $font_count = 'all';
 		/**
 		 * The font list sort order. Either 'alpha' or 'popular'. Default = 'alpha'
 		 */
-		private $fontOrderBy = 'alpha';
+		private $font_order_by = 'alpha';
 		/**
 		 * Get our list of fonts from the json file
 		 */
@@ -644,19 +646,19 @@ function mtm_customize_register( $wp_customize) {
 			parent::__construct( $manager, $id, $args );
 			// Get the font sort order
 			if ( isset( $this->input_attrs['orderby'] ) && strtolower( $this->input_attrs['orderby'] ) === 'popular' ) {
-				$this->fontOrderBy = 'popular';
+				$this->font_order_by = 'popular';
 			}
 			// Get the list of Google fonts
 			if ( isset( $this->input_attrs['font_count'] ) ) {
-				if ( 'all' != strtolower( $this->input_attrs['font_count'] ) ) {
-					$this->fontCount = ( abs( (int) $this->input_attrs['font_count'] ) > 0 ? abs( (int) $this->input_attrs['font_count'] ) : 'all' );
+				if ( 'all' !== strtolower( $this->input_attrs['font_count'] ) ) {
+					$this->font_count = ( abs( (int) $this->input_attrs['font_count'] ) > 0 ? abs( (int) $this->input_attrs['font_count'] ) : 'all' );
 				}
 			}
-			$this->fontList = $this->mtm_getGoogleFonts( 'all' );
+			$this->font_list = $this->mtm_getGoogleFonts( 'all' );
 			// Decode the default json font value
-			$this->fontValues = json_decode( $this->value() );
+			$this->font_values = json_decode( $this->value() );
 			// Find the index of our default font within our list of Google fonts
-			$this->fontListIndex = $this->mtm_getFontIndex( $this->fontList, $this->fontValues->font );
+			$this->font_list_index = $this->mtm_getFontIndex( $this->font_list, $this->font_values->font );
 		}
 		/**
 		 * Enqueue our scripts and styles
@@ -672,78 +674,80 @@ function mtm_customize_register( $wp_customize) {
 		 */
 		public function to_json() {
 			parent::to_json();
-			$this->json['mtmfontslist'] = $this->fontList;
+			$this->json['mtmfontslist'] = $this->font_list;
 		}
 		/**
 		 * Render the control in the customizer
 		 */
 		public function render_content() {
-			$fontCounter = 0;
-			$isFontInList = false;
-			$fontListStr = '';
+			$font_counter    = 0;
+			$is_font_in_list = false;
+			$font_list_str   = '';
 
-			if( !empty($this->fontList) ) {
+			if ( ! empty( $this->font_list ) ) {
 				?>
 				<div class="google_fonts_select_control">
-					<?php if( !empty( $this->label ) ) { ?>
+					<?php if ( ! empty( $this->label ) ) { ?>
 						<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 					<?php } ?>
-					<?php if( !empty( $this->description ) ) { ?>
+					<?php if ( ! empty( $this->description ) ) { ?>
 						<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
 					<?php } ?>
 					<input type="hidden" id="<?php echo esc_attr( $this->id ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" class="customize-control-google-font-selection" <?php $this->link(); ?> />
 					<div class="google-fonts">
 						<select class="google-fonts-list" control-name="<?php echo esc_attr( $this->id ); ?>">
 							<?php
-								foreach( $this->fontList as $key => $value ) {
-									$fontCounter++;
-									$fontListStr .= '<option value="' . $value->family . '" ' . selected( $this->fontValues->font, $value->family, false ) . '>' . $value->family . '</option>';
-									if ( $this->fontValues->font === $value->family ) {
-										$isFontInList = true;
-									}
-									if ( is_int( $this->fontCount ) && $fontCounter === $this->fontCount ) {
-										break;
-									}
+							foreach ( $this->font_list as $key => $value ) {
+								$font_counter++;
+								$font_list_str .= '<option value="' . $value->family . '" ' . selected( $this->font_values->font, $value->family, false ) . '>' . $value->family . '</option>';
+								if ( $this->font_values->font === $value->family ) {
+									$is_font_in_list = true;
 								}
-								if ( !$isFontInList && $this->fontListIndex ) {
-									// If the default or saved font value isn't in the list of displayed fonts, add it to the top of the list as the default font
-									$fontListStr = '<option value="' . $this->fontList[$this->fontListIndex]->family . '" ' . selected( $this->fontValues->font, $this->fontList[$this->fontListIndex]->family, false ) . '>' . $this->fontList[$this->fontListIndex]->family . ' (default)</option>' . $fontListStr;
+								if ( is_int( $this->font_count ) && $font_counter === $this->font_count ) {
+									break;
 								}
+							}
+							if ( ! $is_font_in_list && $this->font_list_index ) {
+								// If the default or saved font value isn't in the list of displayed fonts, add it to the top of the list as the default font
+								$font_list_str = '<option value="' . $this->font_list[ $this->font_list_index ]->family . '" ' . selected( $this->font_values->font, $this->font_list[ $this->font_list_index ]->family, false ) . '>' . $this->font_list[ $this->font_list_index ]->family . ' (default)</option>' . $font_list_str;
+							}
 								// Display our list of font options
-								echo $fontListStr;
+								echo wp_kses( $font_list_str );
 							?>
 						</select>
 					</div>
-					<div class="customize-control-description"><?php esc_html_e( 'Select weight & style for regular text', 'mtm' ) ?></div>
+					<div class="customize-control-description">
+						<?php esc_html_e( 'Select weight & style for regular text', 'mtm' ); ?>
+					</div>
 					<div class="weight-style">
 						<select class="google-fonts-regularweight-style">
 							<?php
-								foreach( $this->fontList[$this->fontListIndex]->variants as $key => $value ) {
-									echo '<option value="' . $value . '" ' . selected( $this->fontValues->regularweight, $value, false ) . '>' . $value . '</option>';
-								}
+							foreach ( $this->font_list[ $this->font_list_index ]->variants as $key => $value ) {
+								echo '<option value="' . esc_attr( $value ) . '" ' . selected( $this->font_values->regularweight, $value, false ) . '>' . esc_attr( $value ) . '</option>';
+							}
 							?>
 						</select>
 					</div>
-					<div class="customize-control-description"><?php esc_html_e( 'Select weight for', 'mtm' ) ?> <strong><?php esc_html_e( 'bold text', 'mtm' ) ?></strong></div>
+					<div class="customize-control-description"><?php esc_html_e( 'Select weight for', 'mtm' ); ?> <strong><?php esc_html_e( 'bold text', 'mtm' ); ?></strong></div>
 					<div class="weight-style">
 						<select class="google-fonts-boldweight-style">
 							<?php
-								$optionCount = 0;
-								foreach( $this->fontList[$this->fontListIndex]->variants as $key => $value ) {
-									// Only add options that aren't italic
-									if( strpos( $value, 'italic' ) === false ) {
-										echo '<option value="' . $value . '" ' . selected( $this->fontValues->boldweight, $value, false ) . '>' . $value . '</option>';
-										$optionCount++;
-									}
+							$option_count = 0;
+							foreach ( $this->font_list[ $this->font_list_index ]->variants as $key => $value ) {
+								// Only add options that aren't italic
+								if ( strpos( $value, 'italic' ) === false ) {
+									echo '<option value="' . esc_attr( $value ) . '" ' . selected( $this->font_values->boldweight, $value, false ) . '>' . esc_attr( $value ) . '</option>';
+									$option_count++;
 								}
-								// This should never evaluate as there'll always be at least a 'regular' weight
-								if( $optionCount == 0 ) {
-									echo '<option value="">Not Available for this font</option>';
-								}
+							}
+							// This should never evaluate as there'll always be at least a 'regular' weight
+							if ( 0 === $option_count ) {
+								echo '<option value="">Not Available for this font</option>';
+							}
 							?>
 						</select>
 					</div>
-					<input type="hidden" class="google-fonts-category" value="<?php echo $this->fontValues->category; ?>">
+					<input type="hidden" class="google-fonts-category" value="<?php echo esc_attr( $this->font_values->category ); ?>">
 				</div>
 				<?php
 			}
@@ -753,8 +757,8 @@ function mtm_customize_register( $wp_customize) {
 		 * Find the index of the saved font in our multidimensional array of Google Fonts
 		 */
 		public function mtm_getFontIndex( $haystack, $needle ) {
-			foreach( $haystack as $key => $value ) {
-				if( $value->family == $needle ) {
+			foreach ( $haystack as $key => $value ) {
+				if ( $value->family === $needle ) {
 					return $key;
 				}
 			}
@@ -766,20 +770,20 @@ function mtm_customize_register( $wp_customize) {
 		 */
 		public function mtm_getGoogleFonts( $count = 30 ) {
 			// Google Fonts json generated from https://www.googleapis.com/webfonts/v1/webfonts?sort=popularity&key=YOUR-API-KEY
-			$fontFile = $this->get_mtm_resource_url() . 'lib/google-fonts-alphabetical.json';
-			if ( $this->fontOrderBy === 'popular' ) {
-				$fontFile = $this->get_mtm_resource_url() . 'lib/google-fonts-popularity.json';
+			$font_file = $this->get_mtm_resource_url() . 'lib/google-fonts-alphabetical.json';
+			if ( 'popular' === $this->font_order_by ) {
+				$font_file = $this->get_mtm_resource_url() . 'lib/google-fonts-popularity.json';
 			}
 
-			$request = wp_remote_get( $fontFile );
-			if( is_wp_error( $request ) ) {
-				return "";
+			$request = wp_remote_get( $font_file );
+			if ( is_wp_error( $request ) ) {
+				return '';
 			}
 
-			$body = wp_remote_retrieve_body( $request );
+			$body    = wp_remote_retrieve_body( $request );
 			$content = json_decode( $body );
 
-			if( $count == 'all' ) {
+			if ( 'all' === $count ) {
 				return $content->items;
 			} else {
 				return array_slice( $content->items, 0, $count );
@@ -834,15 +838,17 @@ function mtm_customize_register( $wp_customize) {
 
 			?>
 				<label>
-					<?php // Output the label and description if they were passed in.
+					<?php
+					// Output the label and description if they were passed in.
 					if ( isset( $this->label ) && '' !== $this->label ) {
 						echo '<span class="customize-control-title">' . sanitize_text_field( $this->label ) . '</span>';
 					}
 					if ( isset( $this->description ) && '' !== $this->description ) {
 						echo '<span class="description customize-control-description">' . sanitize_text_field( $this->description ) . '</span>';
-					} ?>
+					}
+					?>
 				</label>
-				<input class="alpha-color-control" type="text" data-show-opacity="<?php echo $show_opacity; ?>" data-palette="<?php echo esc_attr( $palette ); ?>" data-default-color="<?php echo esc_attr( $this->settings['default']->default ); ?>" <?php $this->link(); ?>  />
+				<input class="alpha-color-control" type="text" data-show-opacity="<?php echo esc_attr( $show_opacity ); ?>" data-palette="<?php echo esc_attr( $palette ); ?>" data-default-color="<?php echo esc_attr( $this->settings['default']->default ); ?>" <?php $this->link(); ?>  />
 			<?php
 		}
 	}
@@ -868,11 +874,11 @@ function mtm_customize_register( $wp_customize) {
 		/**
 		 * ColorPicker Attributes
 		 */
-		public $attributes = "";
+		public $attributes = '';
 		/**
 		 * Color palette defaults
 		 */
-		public $defaultPalette = array(
+		public $default_palette = array(
 			'#000000',
 			'#ffffff',
 			'#dd3333',
@@ -905,23 +911,23 @@ function mtm_customize_register( $wp_customize) {
 		 */
 		public function to_json() {
 			parent::to_json();
-			$this->json['colorpickerpalette'] = isset( $this->input_attrs['palette'] ) ? $this->input_attrs['palette'] : $this->defaultPalette;
+			$this->json['colorpickerpalette'] = isset( $this->input_attrs['palette'] ) ? $this->input_attrs['palette'] : $this->default_palette;
 		}
 		/**
 		 * Render the control in the customizer
 		 */
 		public function render_content() {
-		?>
-		  <div class="wpcolorpicker_alpha_color_control">
-				<?php if( !empty( $this->label ) ) { ?>
+			?>
+			<div class="wpcolorpicker_alpha_color_control">
+				<?php if ( ! empty( $this->label ) ) { ?>
 					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 				<?php } ?>
-				<?php if( !empty( $this->description ) ) { ?>
+				<?php if ( ! empty( $this->description ) ) { ?>
 					<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
 				<?php } ?>
-				<input type="text" class="color-picker" id="<?php echo esc_attr( $this->id ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" class="customize-control-colorpicker-alpha-color" <?php echo $this->attributes; ?> <?php $this->link(); ?> />
+				<input type="text" class="color-picker" id="<?php echo esc_attr( $this->id ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" class="customize-control-colorpicker-alpha-color" <?php echo esc_attr( $this->attributes ); ?> <?php $this->link(); ?> />
 			</div>
-		<?php
+			<?php
 		}
 	}
 
