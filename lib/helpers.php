@@ -282,13 +282,15 @@ if ( ! function_exists( 'mtm_get_phone_number' ) ) {
 /**
 * Social Icons Shortcode for use in content or widgets
 */
-function mtm_social_icon_shortcode( $atts ) {
-	$a = shortcode_atts( array(), $atts );
-	ob_start();
-	echo wp_kses_post( mtm_get_social_media() );
-	return ob_get_clean();
+if ( ! function_exists( 'mtm_social_icon_shortcode' ) ) {
+	function mtm_social_icon_shortcode( $atts ) {
+		$a = shortcode_atts( array(), $atts );
+		ob_start();
+		echo wp_kses_post( mtm_get_social_media() );
+		return ob_get_clean();
+	}
+	add_shortcode( 'show_social_icons', 'mtm_social_icon_shortcode' );
 }
-add_shortcode( 'show_social_icons', 'mtm_social_icon_shortcode' );
 
 /**
  * Append a search icon to the primary menu

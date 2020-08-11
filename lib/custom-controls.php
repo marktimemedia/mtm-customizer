@@ -650,7 +650,7 @@ function mtm_customize_register( $wp_customize ) {
 			}
 			// Get the list of Google fonts
 			if ( isset( $this->input_attrs['font_count'] ) ) {
-				if ( 'all' !== strtolower( $this->input_attrs['font_count'] ) ) {
+				if ( 'all' != strtolower( $this->input_attrs['font_count'] ) ) {
 					$this->font_count = ( abs( (int) $this->input_attrs['font_count'] ) > 0 ? abs( (int) $this->input_attrs['font_count'] ) : 'all' );
 				}
 			}
@@ -697,38 +697,36 @@ function mtm_customize_register( $wp_customize ) {
 					<div class="google-fonts">
 						<select class="google-fonts-list" control-name="<?php echo esc_attr( $this->id ); ?>">
 							<?php
-							foreach ( $this->font_list as $key => $value ) {
-								$font_counter++;
-								$font_list_str .= '<option value="' . $value->family . '" ' . selected( $this->font_values->font, $value->family, false ) . '>' . $value->family . '</option>';
-								if ( $this->font_values->font === $value->family ) {
-									$is_font_in_list = true;
+								foreach ( $this->font_list as $key => $value ) {
+									$font_counter++;
+									$font_list_str .= '<option value="' . $value->family . '" ' . selected( $this->font_values->font, $value->family, false ) . '>' . $value->family . '</option>';
+									if ( $this->font_values->font === $value->family ) {
+										$is_font_in_list = true;
+									}
+									if ( is_int( $this->font_count ) && $font_counter === $this->font_count ) {
+										break;
+									}
 								}
-								if ( is_int( $this->font_count ) && $font_counter === $this->font_count ) {
-									break;
+								if ( !$is_font_in_list && $this->font_list_index ) {
+									// If the default or saved font value isn't in the list of displayed fonts, add it to the top of the list as the default font
+									$font_list_str = '<option value="' . $this->font_list[$this->font_list_index]->family . '" ' . selected( $this->font_values->font, $this->font_list[$this->font_list_index]->family, false ) . '>' . $this->font_list[$this->font_list_index]->family . ' (default)</option>' . $font_list_str;
 								}
-							}
-							if ( ! $is_font_in_list && $this->font_list_index ) {
-								// If the default or saved font value isn't in the list of displayed fonts, add it to the top of the list as the default font
-								$font_list_str = '<option value="' . $this->font_list[ $this->font_list_index ]->family . '" ' . selected( $this->font_values->font, $this->font_list[ $this->font_list_index ]->family, false ) . '>' . $this->font_list[ $this->font_list_index ]->family . ' (default)</option>' . $font_list_str;
-							}
 								// Display our list of font options
-								echo wp_kses( $font_list_str );
+								echo $font_list_str;
 							?>
 						</select>
 					</div>
-					<div class="customize-control-description">
-						<?php esc_html_e( 'Select weight & style for regular text', 'mtm' ); ?>
-					</div>
+					<div class="customize-control-description"><?php esc_html_e( 'Select weight & style for regular text', 'mtm' ) ?></div>
 					<div class="weight-style">
 						<select class="google-fonts-regularweight-style">
 							<?php
-							foreach ( $this->font_list[ $this->font_list_index ]->variants as $key => $value ) {
-								echo '<option value="' . esc_attr( $value ) . '" ' . selected( $this->font_values->regularweight, $value, false ) . '>' . esc_attr( $value ) . '</option>';
-							}
+								foreach ( $this->font_list[ $this->font_list_index ]->variants as $key => $value ) {
+									echo '<option value="' . $value . '" ' . selected( $this->font_values->regularweight, $value, false ) . '>' . $value . '</option>';
+								}
 							?>
 						</select>
 					</div>
-					<div class="customize-control-description"><?php esc_html_e( 'Select weight for', 'mtm' ); ?> <strong><?php esc_html_e( 'bold text', 'mtm' ); ?></strong></div>
+					<div class="customize-control-description"><?php esc_html_e( 'Select weight for', 'mtm' ) ?> <strong><?php esc_html_e( 'bold text', 'mtm' ) ?></strong></div>
 					<div class="weight-style">
 						<select class="google-fonts-boldweight-style">
 							<?php
@@ -736,18 +734,18 @@ function mtm_customize_register( $wp_customize ) {
 							foreach ( $this->font_list[ $this->font_list_index ]->variants as $key => $value ) {
 								// Only add options that aren't italic
 								if ( strpos( $value, 'italic' ) === false ) {
-									echo '<option value="' . esc_attr( $value ) . '" ' . selected( $this->font_values->boldweight, $value, false ) . '>' . esc_attr( $value ) . '</option>';
+									echo '<option value="' . $value . '" ' . selected( $this->font_values->boldweight, $value, false ) . '>' . $value . '</option>';
 									$option_count++;
 								}
 							}
 							// This should never evaluate as there'll always be at least a 'regular' weight
-							if ( 0 === $option_count ) {
+							if ( $option_count == 0 ) {
 								echo '<option value="">Not Available for this font</option>';
 							}
 							?>
 						</select>
 					</div>
-					<input type="hidden" class="google-fonts-category" value="<?php echo esc_attr( $this->font_values->category ); ?>">
+					<input type="hidden" class="google-fonts-category" value="<?php echo $this->font_values->category; ?>">
 				</div>
 				<?php
 			}
@@ -758,7 +756,7 @@ function mtm_customize_register( $wp_customize ) {
 		 */
 		public function mtm_getFontIndex( $haystack, $needle ) {
 			foreach ( $haystack as $key => $value ) {
-				if ( $value->family === $needle ) {
+				if ( $value->family == $needle ) {
 					return $key;
 				}
 			}
@@ -771,7 +769,7 @@ function mtm_customize_register( $wp_customize ) {
 		public function mtm_getGoogleFonts( $count = 30 ) {
 			// Google Fonts json generated from https://www.googleapis.com/webfonts/v1/webfonts?sort=popularity&key=YOUR-API-KEY
 			$font_file = $this->get_mtm_resource_url() . 'lib/google-fonts-alphabetical.json';
-			if ( 'popular' === $this->font_order_by ) {
+			if ( $this->font_order_by === 'popular' ) {
 				$font_file = $this->get_mtm_resource_url() . 'lib/google-fonts-popularity.json';
 			}
 
@@ -780,10 +778,10 @@ function mtm_customize_register( $wp_customize ) {
 				return '';
 			}
 
-			$body    = wp_remote_retrieve_body( $request );
+			$body = wp_remote_retrieve_body( $request );
 			$content = json_decode( $body );
 
-			if ( 'all' === $count ) {
+			if( $count == 'all' ) {
 				return $content->items;
 			} else {
 				return array_slice( $content->items, 0, $count );
@@ -1206,8 +1204,8 @@ function mtm_customize_register( $wp_customize ) {
 	/**
 	 * Only allow values between a certain minimum & maxmium range
 	 *
-	 * @param  number	Input to be sanitized
-	 * @return number	Sanitized input
+	 * @param  number Input to be sanitized
+	 * @return number Sanitized input
 	 */
 	if ( ! function_exists( 'mtm_in_range' ) ) {
 		function mtm_in_range( $input, $min, $max ){
@@ -1224,8 +1222,8 @@ function mtm_customize_register( $wp_customize ) {
 	/**
 	 * Google Font sanitization
 	 *
-	 * @param  string	JSON string to be sanitized
-	 * @return string	Sanitized input
+	 * @param  string JSON string to be sanitized
+	 * @return string Sanitized input
 	 */
 	if ( ! function_exists( 'mtm_google_font_sanitization' ) ) {
 		function mtm_google_font_sanitization( $input ) {

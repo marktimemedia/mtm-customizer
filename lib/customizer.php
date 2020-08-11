@@ -14,6 +14,7 @@ class Mtm_Initialise_Customizer_Settings {
 	public function __construct() {
 		// Get our Customizer defaults
 		$this->defaults = mtm_generate_defaults();
+		$font_option    = ( '1' !== get_option( 'options_mtm_customizer_google_fonts' ) ) ? get_option( 'options_mtm_customizer_google_fonts' ) : true;
 
 		add_action( 'customize_register', 'mtm_customize_register' );
 
@@ -26,8 +27,10 @@ class Mtm_Initialise_Customizer_Settings {
 		// Register our visual controls
 		add_action( 'customize_register', array( $this, 'mtm_register_visual_controls' ) );
 
-		// Register our font controls
-		add_action( 'customize_register', array( $this, 'mtm_register_font_controls' ) );
+		if ( $font_option ) {
+			// Register our font controls
+			add_action( 'customize_register', array( $this, 'mtm_register_font_controls' ) );
+		}
 
 		// Register our social media controls
 		add_action( 'customize_register', array( $this, 'mtm_register_social_controls' ) );
@@ -112,7 +115,7 @@ class Mtm_Initialise_Customizer_Settings {
 	}
 
 	public function mtm_register_font_controls( $wp_customize ) {
-		// Test of Google Font Select Control
+		// Google Font Heading Control
 		$wp_customize->add_setting(
 			'heading_font_select',
 			array(
@@ -137,7 +140,7 @@ class Mtm_Initialise_Customizer_Settings {
 			)
 		);
 
-		// Test of Google Font Select Control
+		// Google Font Subheading Control
 		$wp_customize->add_setting(
 			'subheading_font_select',
 			array(
@@ -162,7 +165,7 @@ class Mtm_Initialise_Customizer_Settings {
 			)
 		);
 
-		// Test of Google Font Select Control
+		// Google Font Body Control
 		$wp_customize->add_setting(
 			'body_font_select',
 			array(
@@ -212,10 +215,10 @@ class Mtm_Initialise_Customizer_Settings {
 					'label'       => 'Mobile Logo',
 					'settings'    => 'mtm_mobile_logo',
 					'section'     => 'title_tagline',
-					'height'      => $custom_logo_args[0]['height'],
-					'width'       => $custom_logo_args[0]['width'],
-					'flex_height' => $custom_logo_args[0]['flex-height'],
-					'flex_width'  => $custom_logo_args[0]['flex-width'],
+					'height'      => 300,
+					'width'       => 600,
+					'flex_height' => true,
+					'flex_width'  => true,
 				)
 			)
 		);
@@ -225,7 +228,7 @@ class Mtm_Initialise_Customizer_Settings {
 			'mtm_footer_logo',
 			array(
 				'default'   => '',
-				'transport' => 'postMessage',
+				'transport' => 'refresh',
 			)
 		);
 
@@ -237,10 +240,10 @@ class Mtm_Initialise_Customizer_Settings {
 					'label'       => 'Footer Logo',
 					'settings'    => 'mtm_footer_logo',
 					'section'     => 'title_tagline',
-					'height'      => $custom_logo_args[0]['height'],
-					'width'       => $custom_logo_args[0]['width'],
-					'flex_height' => $custom_logo_args[0]['flex-height'],
-					'flex_width'  => $custom_logo_args[0]['flex-width'],
+					'height'      => 300,
+					'width'       => 600,
+					'flex_height' => true,
+					'flex_width'  => true,
 				)
 			)
 		);
@@ -250,7 +253,7 @@ class Mtm_Initialise_Customizer_Settings {
 			'mtm_default_image',
 			array(
 				'default'   => '',
-				'transport' => 'postMessage',
+				'transport' => 'refresh',
 			)
 		);
 

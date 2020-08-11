@@ -6,8 +6,10 @@ global $classes; // from ACF custom block
 		<?php
 		if ( function_exists( 'spring_title' ) ) {
 			echo esc_html( spring_title() );
-		} else {
+		} elseif ( get_the_title() ) {
 			echo esc_html( get_the_title() );
+		} else {
+			echo 'Page Headline';
 		}
 		?>
 	</h1>
