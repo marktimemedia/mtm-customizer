@@ -185,7 +185,7 @@ function mtm_customize_register( $wp_customize ) {
 		 * Enqueue our scripts and styles
 		 */
 		public function enqueue() {
-			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer.js', array( 'jquery' ), '1.0', true );
+			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer-custom.js', array( 'jquery' ), '1.0', true );
 			wp_enqueue_style( 'mtm-custom-controls-css', $this->get_mtm_resource_url() . 'css/customizer.css', array(), '1.0', 'all' );
 		}
 		/**
@@ -290,7 +290,7 @@ function mtm_customize_register( $wp_customize ) {
 		 * Enqueue our scripts and styles
 		 */
 		public function enqueue() {
-			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer.js', array( 'jquery', 'jquery-ui-core' ), '1.0', true );
+			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer-custom.js', array( 'jquery', 'jquery-ui-core' ), '1.0', true );
 			wp_enqueue_style( 'mtm-custom-controls-css', $this->get_mtm_resource_url() . 'css/customizer.css', array(), '1.0', 'all' );
 		}
 		/**
@@ -313,7 +313,7 @@ function mtm_customize_register( $wp_customize ) {
 	 * @license http://www.gnu.org/licenses/gpl-2.0.html
 	 * @link https://github.com/maddisondesigns
 	 */
-	class Mtm_Toggle_Switch_Custom_control extends Mtm_Custom_Control {
+	class Mtm_Toggle_Switch_Custom_Control extends Mtm_Custom_Control {
 		/**
 		 * The type of control being rendered
 		 */
@@ -384,7 +384,7 @@ function mtm_customize_register( $wp_customize ) {
 		 * Enqueue our scripts and styles
 		 */
 		public function enqueue() {
-			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer.js', array( 'jquery', 'jquery-ui-core' ), '1.0', true );
+			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer-custom.js', array( 'jquery', 'jquery-ui-core' ), '1.0', true );
 			wp_enqueue_style( 'mtm-custom-controls-css', $this->get_mtm_resource_url() . 'css/customizer.css', array(), '1.0', 'all' );
 		}
 		/**
@@ -450,7 +450,7 @@ function mtm_customize_register( $wp_customize ) {
 		 */
 		public function enqueue() {
 			wp_enqueue_script( 'mtm-select2-js', $this->get_mtm_resource_url() . 'js/select2.full.min.js', array( 'jquery' ), '4.0.13', true );
-			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer.js', array( 'mtm-select2-js' ), '1.0', true );
+			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer-custom.js', array( 'mtm-select2-js' ), '1.0', true );
 			wp_enqueue_style( 'mtm-custom-controls-css', $this->get_mtm_resource_url() . 'css/customizer.css', array(), '1.1', 'all' );
 			wp_enqueue_style( 'mtm-select2-css', $this->get_mtm_resource_url() . 'css/select2.min.css', array(), '4.0.13', 'all' );
 		}
@@ -563,6 +563,63 @@ function mtm_customize_register( $wp_customize ) {
 	}
 
 	/**
+	 * Dropdown Category Custom Control
+	 *
+	 * @link https://www.cssigniter.com/wordpress-customizer-custom-controls-categories-dropdown/
+	 */
+	class Mtm_Dropdown_Category_Custom_Control extends Mtm_Custom_Control {
+
+		public $type = 'dropdown-category';
+
+		protected $dropdown_args = false;
+
+		protected function render_content() {
+			?>
+			<label>
+			<?php if ( ! empty( $this->label ) ) : ?>
+				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+			<?php endif; ?>
+
+			<?php if ( ! empty( $this->description ) ) : ?>
+				<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+				<?php
+			endif;
+
+			$dropdown_args = wp_parse_args(
+				$this->dropdown_args,
+				array(
+					'taxonomy'          => 'category',
+					'show_option_none'  => ' ',
+					'selected'          => $this->value(),
+					'show_option_all'   => '',
+					'orderby'           => 'id',
+					'order'             => 'ASC',
+					'show_count'        => 1,
+					'hide_empty'        => 1,
+					'child_of'          => 0,
+					'exclude'           => '',
+					'hierarchical'      => 1,
+					'depth'             => 0,
+					'tab_index'         => 0,
+					'hide_if_empty'     => false,
+					'option_none_value' => 0,
+					'value_field'       => 'term_id',
+				)
+			);
+
+			$dropdown_args['echo'] = false;
+
+			$dropdown = wp_dropdown_categories( $dropdown_args );
+			$dropdown = str_replace( '<select', '<select ' . $this->get_link(), $dropdown );
+			echo $dropdown;
+			?>
+
+			</label>
+			<?php
+		}
+	}
+
+	/**
 	 * TinyMCE Custom Control
 	 *
 	 * @author Anthony Hortin <http://maddisondesigns.com>
@@ -578,7 +635,7 @@ function mtm_customize_register( $wp_customize ) {
 		 * Enqueue our scripts and styles
 		 */
 		public function enqueue() {
-			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer.js', array( 'jquery' ), '1.0', true );
+			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer-custom.js', array( 'jquery' ), '1.0', true );
 			wp_enqueue_style( 'mtm-custom-controls-css', $this->get_mtm_resource_url() . 'css/customizer.css', array(), '1.0', 'all' );
 			wp_enqueue_editor();
 		}
@@ -626,7 +683,7 @@ function mtm_customize_register( $wp_customize ) {
 		/**
 		 * The saved font values decoded from json
 		 */
-		private $font_values = [];
+		private $font_values = array();
 		/**
 		 * The index of the saved font within the list of Google fonts
 		 */
@@ -650,7 +707,7 @@ function mtm_customize_register( $wp_customize ) {
 			}
 			// Get the list of Google fonts
 			if ( isset( $this->input_attrs['font_count'] ) ) {
-				if ( 'all' != strtolower( $this->input_attrs['font_count'] ) ) {
+				if ( 'all' !== strtolower( $this->input_attrs['font_count'] ) ) {
 					$this->font_count = ( abs( (int) $this->input_attrs['font_count'] ) > 0 ? abs( (int) $this->input_attrs['font_count'] ) : 'all' );
 				}
 			}
@@ -665,7 +722,7 @@ function mtm_customize_register( $wp_customize ) {
 		 */
 		public function enqueue() {
 			wp_enqueue_script( 'mtm-select2-js', $this->get_mtm_resource_url() . 'js/select2.full.min.js', array( 'jquery' ), '4.0.13', true );
-			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer.js', array( 'mtm-select2-js' ), '1.0', true );
+			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer-custom.js', array( 'mtm-select2-js' ), '1.0', true );
 			wp_enqueue_style( 'mtm-custom-controls-css', $this->get_mtm_resource_url() . 'css/customizer.css', array(), '1.1', 'all' );
 			wp_enqueue_style( 'mtm-select2-css', $this->get_mtm_resource_url() . 'css/select2.min.css', array(), '4.0.13', 'all' );
 		}
@@ -697,36 +754,36 @@ function mtm_customize_register( $wp_customize ) {
 					<div class="google-fonts">
 						<select class="google-fonts-list" control-name="<?php echo esc_attr( $this->id ); ?>">
 							<?php
-								foreach ( $this->font_list as $key => $value ) {
-									$font_counter++;
-									$font_list_str .= '<option value="' . $value->family . '" ' . selected( $this->font_values->font, $value->family, false ) . '>' . $value->family . '</option>';
-									if ( $this->font_values->font === $value->family ) {
-										$is_font_in_list = true;
-									}
-									if ( is_int( $this->font_count ) && $font_counter === $this->font_count ) {
-										break;
-									}
+							foreach ( $this->font_list as $key => $value ) {
+								$font_counter++;
+								$font_list_str .= '<option value="' . $value->family . '" ' . selected( $this->font_values->font, $value->family, false ) . '>' . $value->family . '</option>';
+								if ( $this->font_values->font === $value->family ) {
+									$is_font_in_list = true;
 								}
-								if ( !$is_font_in_list && $this->font_list_index ) {
-									// If the default or saved font value isn't in the list of displayed fonts, add it to the top of the list as the default font
-									$font_list_str = '<option value="' . $this->font_list[$this->font_list_index]->family . '" ' . selected( $this->font_values->font, $this->font_list[$this->font_list_index]->family, false ) . '>' . $this->font_list[$this->font_list_index]->family . ' (default)</option>' . $font_list_str;
+								if ( is_int( $this->font_count ) && $font_counter === $this->font_count ) {
+									break;
 								}
-								// Display our list of font options
-								echo $font_list_str;
+							}
+							if ( ! $is_font_in_list && $this->font_list_index ) {
+								// If the default or saved font value isn't in the list of displayed fonts, add it to the top of the list as the default font
+								$font_list_str = '<option value="' . $this->font_list[ $this->font_list_index ]->family . '" ' . selected( $this->font_values->font, $this->font_list[ $this->font_list_index ]->family, false ) . '>' . $this->font_list[ $this->font_list_index ]->family . ' (default)</option>' . $font_list_str;
+							}
+							// Display our list of font options
+							echo wp_kses_post( $font_list_str );
 							?>
 						</select>
 					</div>
-					<div class="customize-control-description"><?php esc_html_e( 'Select weight & style for regular text', 'mtm' ) ?></div>
+					<div class="customize-control-description"><?php esc_html_e( 'Select weight & style for regular text', 'mtm' ); ?></div>
 					<div class="weight-style">
 						<select class="google-fonts-regularweight-style">
 							<?php
-								foreach ( $this->font_list[ $this->font_list_index ]->variants as $key => $value ) {
-									echo '<option value="' . $value . '" ' . selected( $this->font_values->regularweight, $value, false ) . '>' . $value . '</option>';
-								}
+							foreach ( $this->font_list[ $this->font_list_index ]->variants as $key => $value ) {
+								echo '<option value="' . esc_attr( $value ) . '" ' . selected( $this->font_values->regularweight, $value, false ) . '>' . esc_attr( $value ) . '</option>';
+							}
 							?>
 						</select>
 					</div>
-					<div class="customize-control-description"><?php esc_html_e( 'Select weight for', 'mtm' ) ?> <strong><?php esc_html_e( 'bold text', 'mtm' ) ?></strong></div>
+					<div class="customize-control-description"><?php esc_html_e( 'Select weight for', 'mtm' ); ?> <strong><?php esc_html_e( 'bold text', 'mtm' ); ?></strong></div>
 					<div class="weight-style">
 						<select class="google-fonts-boldweight-style">
 							<?php
@@ -734,18 +791,18 @@ function mtm_customize_register( $wp_customize ) {
 							foreach ( $this->font_list[ $this->font_list_index ]->variants as $key => $value ) {
 								// Only add options that aren't italic
 								if ( strpos( $value, 'italic' ) === false ) {
-									echo '<option value="' . $value . '" ' . selected( $this->font_values->boldweight, $value, false ) . '>' . $value . '</option>';
+									echo '<option value="' . esc_attr( $value ) . '" ' . selected( $this->font_values->boldweight, $value, false ) . '>' . esc_attr( $value ) . '</option>';
 									$option_count++;
 								}
 							}
 							// This should never evaluate as there'll always be at least a 'regular' weight
-							if ( $option_count == 0 ) {
+							if ( 0 === $option_count ) {
 								echo '<option value="">Not Available for this font</option>';
 							}
 							?>
 						</select>
 					</div>
-					<input type="hidden" class="google-fonts-category" value="<?php echo $this->font_values->category; ?>">
+					<input type="hidden" class="google-fonts-category" value="<?php echo esc_attr( $this->font_values->category ); ?>">
 				</div>
 				<?php
 			}
@@ -756,7 +813,7 @@ function mtm_customize_register( $wp_customize ) {
 		 */
 		public function mtm_getFontIndex( $haystack, $needle ) {
 			foreach ( $haystack as $key => $value ) {
-				if ( $value->family == $needle ) {
+				if ( $value->family === $needle ) {
 					return $key;
 				}
 			}
@@ -769,7 +826,7 @@ function mtm_customize_register( $wp_customize ) {
 		public function mtm_getGoogleFonts( $count = 30 ) {
 			// Google Fonts json generated from https://www.googleapis.com/webfonts/v1/webfonts?sort=popularity&key=YOUR-API-KEY
 			$font_file = $this->get_mtm_resource_url() . 'lib/google-fonts-alphabetical.json';
-			if ( $this->font_order_by === 'popular' ) {
+			if ( 'popular' === $this->font_order_by ) {
 				$font_file = $this->get_mtm_resource_url() . 'lib/google-fonts-popularity.json';
 			}
 
@@ -778,10 +835,10 @@ function mtm_customize_register( $wp_customize ) {
 				return '';
 			}
 
-			$body = wp_remote_retrieve_body( $request );
+			$body    = wp_remote_retrieve_body( $request );
 			$content = json_decode( $body );
 
-			if( $count == 'all' ) {
+			if ( 'all' === $count ) {
 				return $content->items;
 			} else {
 				return array_slice( $content->items, 0, $count );
@@ -815,7 +872,7 @@ function mtm_customize_register( $wp_customize ) {
 		 * Enqueue our scripts and styles
 		 */
 		public function enqueue() {
-			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer.js', array( 'jquery', 'wp-color-picker' ), '1.0', true );
+			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer-custom.js', array( 'jquery', 'wp-color-picker' ), '1.0', true );
 			wp_enqueue_style( 'mtm-custom-controls-css', $this->get_mtm_resource_url() . 'css/customizer.css', array( 'wp-color-picker' ), '1.0', 'all' );
 		}
 		/**
@@ -839,10 +896,10 @@ function mtm_customize_register( $wp_customize ) {
 					<?php
 					// Output the label and description if they were passed in.
 					if ( isset( $this->label ) && '' !== $this->label ) {
-						echo '<span class="customize-control-title">' . sanitize_text_field( $this->label ) . '</span>';
+						echo '<span class="customize-control-title">' . esc_html( sanitize_text_field( $this->label ) ) . '</span>';
 					}
 					if ( isset( $this->description ) && '' !== $this->description ) {
-						echo '<span class="description customize-control-description">' . sanitize_text_field( $this->description ) . '</span>';
+						echo '<span class="description customize-control-description">' . esc_html( sanitize_text_field( $this->description ) ) . '</span>';
 					}
 					?>
 				</label>
@@ -962,11 +1019,12 @@ function mtm_customize_register( $wp_customize ) {
 			if ( isset( $this->input_attrs['fullwidth'] ) && $this->input_attrs['fullwidth'] ) {
 				$this->fullwidth = true;
 			}
-		}		/**
+		}
+		/**
 		 * Enqueue our scripts and styles
 		 */
 		public function enqueue() {
-			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer.js', array( 'jquery', 'jquery-ui-core' ), '1.1', true );
+			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer-custom.js', array( 'jquery', 'jquery-ui-core' ), '1.1', true );
 			wp_enqueue_style( 'mtm-custom-controls-css', $this->get_mtm_resource_url() . 'css/customizer.css', array(), '1.0', 'all' );
 		}
 		/**
@@ -977,23 +1035,22 @@ function mtm_customize_register( $wp_customize ) {
 			$saved_choices = explode( ',', esc_attr( $this->value() ) );
 
 			// Order the checkbox choices based on the saved order
-			if( $this->sortable ) {
+			if ( $this->sortable ) {
 				foreach ( $saved_choices as $key => $value ) {
-					if( isset( $this->choices[$value] ) ) {
-						$reordered_choices[$value] = $this->choices[$value];
+					if ( isset( $this->choices[ $value ] ) ) {
+						$reordered_choices[ $value ] = $this->choices[ $value ];
 					}
 				}
 				$reordered_choices = array_merge( $reordered_choices, array_diff_assoc( $this->choices, $reordered_choices ) );
-			}
-			else {
+			} else {
 				$reordered_choices = $this->choices;
 			}
-		?>
+			?>
 			<div class="pill_checkbox_control">
-				<?php if( !empty( $this->label ) ) { ?>
+				<?php if ( ! empty( $this->label ) ) { ?>
 					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 				<?php } ?>
-				<?php if( !empty( $this->description ) ) { ?>
+				<?php if ( ! empty( $this->description ) ) { ?>
 					<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
 				<?php } ?>
 				<input type="hidden" id="<?php echo esc_attr( $this->id ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" class="customize-control-sortable-pill-checkbox" <?php $this->link(); ?> />
@@ -1002,14 +1059,14 @@ function mtm_customize_register( $wp_customize ) {
 					<label class="checkbox-label">
 						<input type="checkbox" name="<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $key ); ?>" <?php checked( in_array( esc_attr( $key ), $saved_choices, true ), true ); ?> class="sortable-pill-checkbox"/>
 						<span class="sortable-pill-title"><?php echo esc_attr( $value ); ?></span>
-						<?php if( $this->sortable && $this->fullwidth ) { ?>
+						<?php if ( $this->sortable && $this->fullwidth ) { ?>
 							<span class="dashicons dashicons-sort"></span>
 						<?php } ?>
 					</label>
 				<?php	} ?>
 				</div>
 			</div>
-		<?php
+			<?php
 		}
 	}
 
@@ -1042,19 +1099,19 @@ function mtm_customize_register( $wp_customize ) {
 		 * Enqueue our scripts and styles
 		 */
 		public function enqueue() {
-			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer.js', array( 'jquery' ), '1.0', true );
+			wp_enqueue_script( 'mtm-custom-controls-js', $this->get_mtm_resource_url() . 'js/customizer-custom.js', array( 'jquery' ), '1.0', true );
 			wp_enqueue_style( 'mtm-custom-controls-css', $this->get_mtm_resource_url() . 'css/customizer.css', array(), '1.0', 'all' );
 		}
 		/**
 		 * Render the section, and the controls that have been added to it.
 		 */
 		protected function render() {
-			$bkgrndcolor = !empty( $this->backgroundcolor ) ? esc_attr( $this->backgroundcolor ) : '#fff';
-			$color = !empty( $this->textcolor ) ? esc_attr( $this->textcolor ) : '#555d66';
+			$bkgrndcolor = ! empty( $this->backgroundcolor ) ? esc_attr( $this->backgroundcolor ) : '#fff';
+			$color       = ! empty( $this->textcolor ) ? esc_attr( $this->textcolor ) : '#555d66';
 			?>
 			<li id="accordion-section-<?php echo esc_attr( $this->id ); ?>" class="mtm_upsell_section accordion-section control-section control-section-<?php echo esc_attr( $this->id ); ?> cannot-expand">
-				<h3 class="upsell-section-title" <?php echo ' style="color:' . $color . ';border-left-color:' . $bkgrndcolor .';border-right-color:' . $bkgrndcolor .';"'; ?>>
-					<a href="<?php echo esc_url( $this->url); ?>" target="_blank"<?php echo ' style="background-color:' . $bkgrndcolor . ';color:' . $color .';"'; ?>><?php echo esc_html( $this->title ); ?></a>
+				<h3 class="upsell-section-title" <?php echo ' style="color:' . esc_attr( $color ) . ';border-left-color:' . esc_attr( $bkgrndcolor ) . ';border-right-color:' . esc_attr( $bkgrndcolor ) . ';"'; ?>>
+					<a href="<?php echo esc_url( $this->url ); ?>" target="_blank"<?php echo ' style="background-color:' . esc_attr( $bkgrndcolor ) . ';color:' . esc_attr( $color ) . ';"'; ?>><?php echo esc_html( $this->title ); ?></a>
 				</h3>
 			</li>
 			<?php
@@ -1064,21 +1121,20 @@ function mtm_customize_register( $wp_customize ) {
 	/**
 	 * URL sanitization
 	 *
-	 * @param  string	Input to be sanitized (either a string containing a single url or multiple, separated by commas)
-	 * @return string	Sanitized input
+	 * @param string Input to be sanitized (either a string containing a single url or multiple, separated by commas)
+	 * @return string Sanitized input
 	 */
 	if ( ! function_exists( 'mtm_url_sanitization' ) ) {
 		function mtm_url_sanitization( $input ) {
-			if ( strpos( $input, ',' ) !== false) {
+			if ( strpos( $input, ',' ) !== false ) {
 				$input = explode( ',', $input );
 			}
 			if ( is_array( $input ) ) {
-				foreach ($input as $key => $value) {
-					$input[$key] = esc_url_raw( $value );
+				foreach ( $input as $key => $value ) {
+					$input[ $key ] = esc_url_raw( $value );
 				}
 				$input = implode( ',', $input );
-			}
-			else {
+			} else {
 				$input = esc_url_raw( $input );
 			}
 			return $input;
@@ -1088,8 +1144,8 @@ function mtm_customize_register( $wp_customize ) {
 	/**
 	 * Switch sanitization
 	 *
-	 * @param  string		Switch value
-	 * @return integer	Sanitized value
+	 * @param  string Switch value
+	 * @return integer Sanitized value
 	 */
 	if ( ! function_exists( 'mtm_switch_sanitization' ) ) {
 		function mtm_switch_sanitization( $input ) {
@@ -1104,13 +1160,13 @@ function mtm_customize_register( $wp_customize ) {
 	/**
 	 * Radio Button and Select sanitization
 	 *
-	 * @param  string		Radio Button value
-	 * @return integer	Sanitized value
+	 * @param  string Radio Button value
+	 * @return integer Sanitized value
 	 */
 	if ( ! function_exists( 'mtm_radio_sanitization' ) ) {
 		function mtm_radio_sanitization( $input, $setting ) {
 			//get the list of possible radio box or select options
-		 $choices = $setting->manager->get_control( $setting->id )->choices;
+			$choices = $setting->manager->get_control( $setting->id )->choices;
 
 			if ( array_key_exists( $input, $choices ) ) {
 				return $input;
@@ -1123,8 +1179,8 @@ function mtm_customize_register( $wp_customize ) {
 	/**
 	 * Integer sanitization
 	 *
-	 * @param  string		Input value to check
-	 * @return integer	Returned integer value
+	 * @param  string Input value to check
+	 * @return integer Returned integer value
 	 */
 	if ( ! function_exists( 'mtm_sanitize_integer' ) ) {
 		function mtm_sanitize_integer( $input ) {
@@ -1135,21 +1191,20 @@ function mtm_customize_register( $wp_customize ) {
 	/**
 	 * Text sanitization
 	 *
-	 * @param  string	Input to be sanitized (either a string containing a single string or multiple, separated by commas)
-	 * @return string	Sanitized input
+	 * @param  string Input to be sanitized (either a string containing a single string or multiple, separated by commas)
+	 * @return string Sanitized input
 	 */
 	if ( ! function_exists( 'mtm_text_sanitization' ) ) {
 		function mtm_text_sanitization( $input ) {
-			if ( strpos( $input, ',' ) !== false) {
+			if ( strpos( $input, ',' ) !== false ) {
 				$input = explode( ',', $input );
 			}
-			if( is_array( $input ) ) {
+			if ( is_array( $input ) ) {
 				foreach ( $input as $key => $value ) {
-					$input[$key] = sanitize_text_field( $value );
+					$input[ $key ] = sanitize_text_field( $value );
 				}
 				$input = implode( ',', $input );
-			}
-			else {
+			} else {
 				$input = sanitize_text_field( $input );
 			}
 			return $input;
@@ -1159,17 +1214,16 @@ function mtm_customize_register( $wp_customize ) {
 	/**
 	 * Array sanitization
 	 *
-	 * @param  array	Input to be sanitized
-	 * @return array	Sanitized input
+	 * @param  array Input to be sanitized
+	 * @return array Sanitized input
 	 */
 	if ( ! function_exists( 'mtm_array_sanitization' ) ) {
 		function mtm_array_sanitization( $input ) {
-			if( is_array( $input ) ) {
+			if ( is_array( $input ) ) {
 				foreach ( $input as $key => $value ) {
-					$input[$key] = sanitize_text_field( $value );
+					$input[ $key ] = sanitize_text_field( $value );
 				}
-			}
-			else {
+			} else {
 				$input = '';
 			}
 			return $input;
@@ -1179,8 +1233,8 @@ function mtm_customize_register( $wp_customize ) {
 	/**
 	 * Alpha Color (Hex & RGBa) sanitization
 	 *
-	 * @param  string	Input to be sanitized
-	 * @return string	Sanitized input
+	 * @param  string Input to be sanitized
+	 * @return string Sanitized input
 	 */
 	if ( ! function_exists( 'mtm_hex_rgba_sanitization' ) ) {
 		function mtm_hex_rgba_sanitization( $input, $setting ) {
@@ -1208,7 +1262,7 @@ function mtm_customize_register( $wp_customize ) {
 	 * @return number Sanitized input
 	 */
 	if ( ! function_exists( 'mtm_in_range' ) ) {
-		function mtm_in_range( $input, $min, $max ){
+		function mtm_in_range( $input, $min, $max ) {
 			if ( $input < $min ) {
 				$input = $min;
 			}
@@ -1227,15 +1281,14 @@ function mtm_customize_register( $wp_customize ) {
 	 */
 	if ( ! function_exists( 'mtm_google_font_sanitization' ) ) {
 		function mtm_google_font_sanitization( $input ) {
-			$val =  json_decode( $input, true );
-			if( is_array( $val ) ) {
+			$val = json_decode( $input, true );
+			if ( is_array( $val ) ) {
 				foreach ( $val as $key => $value ) {
-					$val[$key] = sanitize_text_field( $value );
+					$val[ $key ] = sanitize_text_field( $value );
 				}
-				$input = json_encode( $val );
-			}
-			else {
-				$input = json_encode( sanitize_text_field( $val ) );
+				$input = wp_json_encode( $val );
+			} else {
+				$input = wp_json_encode( sanitize_text_field( $val ) );
 			}
 			return $input;
 		}
@@ -1244,8 +1297,8 @@ function mtm_customize_register( $wp_customize ) {
 	/**
 	 * Date Time sanitization
 	 *
-	 * @param  string	Date/Time string to be sanitized
-	 * @return string	Sanitized input
+	 * @param  string Date/Time string to be sanitized
+	 * @return string Sanitized input
 	 */
 	if ( ! function_exists( 'mtm_date_time_sanitization' ) ) {
 		function mtm_date_time_sanitization( $input, $setting ) {
@@ -1254,7 +1307,7 @@ function mtm_customize_register( $wp_customize ) {
 				$datetimeformat = 'Y-m-d H:i:s';
 			}
 			$date = DateTime::createFromFormat( $datetimeformat, $input );
-			if ( $date === false ) {
+			if ( false === $date ) {
 				$date = DateTime::createFromFormat( $datetimeformat, $setting->default );
 			}
 			return $date->format( $datetimeformat );
@@ -1264,15 +1317,15 @@ function mtm_customize_register( $wp_customize ) {
 	/**
 	 * Slider sanitization
 	 *
-	 * @param  string	Slider value to be sanitized
-	 * @return string	Sanitized input
+	 * @param  string Slider value to be sanitized
+	 * @return string Sanitized input
 	 */
 	if ( ! function_exists( 'mtm_range_sanitization' ) ) {
 		function mtm_range_sanitization( $input, $setting ) {
 			$attrs = $setting->manager->get_control( $setting->id )->input_attrs;
 
-			$min = ( isset( $attrs['min'] ) ? $attrs['min'] : $input );
-			$max = ( isset( $attrs['max'] ) ? $attrs['max'] : $input );
+			$min  = ( isset( $attrs['min'] ) ? $attrs['min'] : $input );
+			$max  = ( isset( $attrs['max'] ) ? $attrs['max'] : $input );
 			$step = ( isset( $attrs['step'] ) ? $attrs['step'] : 1 );
 
 			$number = floor( $input / $attrs['step'] ) * $attrs['step'];

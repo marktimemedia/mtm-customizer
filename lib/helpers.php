@@ -153,17 +153,32 @@ if ( ! function_exists( 'the_mtm_post_thumbnail' ) ) {
 	function the_mtm_post_thumbnail( $size = 'full', $class = '', $link = true, $attr = '' ) {
 		$link_open  = $link ? '<a aria-hidden="true" tabindex="-1" href="' . get_the_permalink() . '">' : '';
 		$link_close = $link ? '</a>' : '';
-		if ( false !== mtm_acf_check() ) :
-			if ( has_post_thumbnail() ) :
-				echo wp_kses_post( $link_open ) . '<figure class="post--thumbnail ' . esc_attr( $class ) . '">';
-				the_post_thumbnail( $size, $attr );
-				echo '</figure>' . wp_kses_post( $link_close );
-			elseif ( get_theme_mod( 'mtm_default_image' ) ) : // make sure field value exists
-				$image = get_theme_mod( 'mtm_default_image' );
-				$url   = wp_get_attachment_image_src( $image, 'medium' )[0];
-				$alt   = '';
-				echo wp_kses_post( $link_open ) . '<figure class="post--thumbnail default-thumbnail ' . esc_attr( $class ) . '"><img src="' . esc_url( $url ) . '" alt="' . esc_html( $alt ) . '" /></figure>' . wp_kses_post( $link_close );
-			endif;
+		if ( has_post_thumbnail() ) :
+			echo wp_kses_post( $link_open ) . '<figure class="post--thumbnail ' . esc_attr( $class ) . '">';
+			the_post_thumbnail( $size, $attr );
+			echo '</figure>' . wp_kses_post( $link_close );
+		elseif ( get_theme_mod( 'mtm_default_image' ) ) : // make sure field value exists
+			$image = get_theme_mod( 'mtm_default_image' );
+			$url   = wp_get_attachment_image_src( $image, $size )[0];
+			$alt   = '';
+			echo wp_kses_post( $link_open ) . '<figure class="post--thumbnail default-thumbnail ' . esc_attr( $class ) . '"><img src="' . esc_url( $url ) . '" alt="' . esc_html( $alt ) . '" /></figure>' . wp_kses_post( $link_close );
+		endif;
+	}
+}
+
+/**
+* Outputs the post thumbnail with fallback for the default image
+*/
+if ( ! function_exists( 'the_mtm_post_thumbnail_cropped' ) ) {
+	function the_mtm_post_thumbnail_cropped( $size = 'full', $class = '', $link = true, $attr = '' ) {
+		$link_open  = $link ? '<a aria-hidden="true" tabindex="-1" href="' . get_the_permalink() . '">' : '';
+		$link_close = $link ? '</a>' : '';
+		if ( has_post_thumbnail() ) :
+			echo wp_kses_post( $link_open ) . '<figure class="post--thumbnail has-background-image cropped ' . esc_attr( $class ) . '" style="background-image:url(' . esc_url( get_the_post_thumbnail_url( 'medium_large' ) ) . '"></figure>' . wp_kses_post( $link_close );
+		elseif ( get_theme_mod( 'mtm_default_image' ) ) : // make sure field value exists
+			$image = get_theme_mod( 'mtm_default_image' );
+			$url   = wp_get_attachment_image_src( $image, $size )[0];
+			echo wp_kses_post( $link_open ) . '<figure class="post--thumbnail default-thumbnail has-background-image cropped ' . esc_attr( $class ) . '" style="background-image:url(' . esc_url( $url ) . '"></figure>' . wp_kses_post( $link_close );
 		endif;
 	}
 }
@@ -177,19 +192,17 @@ if ( ! function_exists( 'the_mtm_post_thumbnail_inline' ) ) {
 		$attachments = get_children( 'post_parent=' . $post_ID . '&post_type=attachment&post_mime_type=image' );
 		$link_open   = $link ? '<a aria-hidden="true" tabindex="-1" href="' . get_the_permalink() . '">' : '';
 		$link_close  = $link ? '</a>' : '';
-		if ( false !== mtm_acf_check() ) :
-			if ( has_post_thumbnail() ) : // is there a post thumbnail?
-				echo wp_kses_post( $link_open ) . '<figure class="post--thumbnail ' . esc_attr( $class ) . '">' . get_the_post_thumbnail( $post_ID, $size, $attr ) . '</figure>' . wp_kses_post( $link_close );
-			elseif ( $attachments ) : // is there an inline image?
-				$keys  = array_reverse( array_keys( $attachments ) );
-				$image = wp_get_attachment_image( $keys[0], $size, true ); // first attachment image
-				echo wp_kses_post( $link_open ) . '<figure class="post--thumbnail ' . esc_attr( $class ) . '">' . wp_kses_post( $image ) . '</figure>' . wp_kses_post( $link_close );
-			elseif ( get_theme_mod( 'mtm_default_image' ) ) : // make sure field value exists
-				$image = get_theme_mod( 'mtm_default_image' );
-				$url   = wp_get_attachment_image_src( $image, 'medium' )[0];
-				$alt   = '';
-				echo wp_kses_post( $link_open ) . '<figure class="post--thumbnail default-thumbnail ' . esc_attr( $class ) . '"><img src="' . esc_url( $url ) . '" alt="' . esc_html( $alt ) . '" /></figure>' . wp_kses_post( $link_close );
-			endif;
+		if ( has_post_thumbnail() ) : // is there a post thumbnail?
+			echo wp_kses_post( $link_open ) . '<figure class="post--thumbnail ' . esc_attr( $class ) . '">' . get_the_post_thumbnail( $post_ID, $size, $attr ) . '</figure>' . wp_kses_post( $link_close );
+		elseif ( $attachments ) : // is there an inline image?
+			$keys  = array_reverse( array_keys( $attachments ) );
+			$image = wp_get_attachment_image( $keys[0], $size, true ); // first attachment image
+			echo wp_kses_post( $link_open ) . '<figure class="post--thumbnail ' . esc_attr( $class ) . '">' . wp_kses_post( $image ) . '</figure>' . wp_kses_post( $link_close );
+		elseif ( get_theme_mod( 'mtm_default_image' ) ) : // make sure field value exists
+			$image = get_theme_mod( 'mtm_default_image' );
+			$url   = wp_get_attachment_image_src( $image, $size )[0];
+			$alt   = '';
+			echo wp_kses_post( $link_open ) . '<figure class="post--thumbnail default-thumbnail ' . esc_attr( $class ) . '"><img src="' . esc_url( $url ) . '" alt="' . esc_html( $alt ) . '" /></figure>' . wp_kses_post( $link_close );
 		endif;
 	}
 };

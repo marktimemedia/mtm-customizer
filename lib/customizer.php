@@ -291,7 +291,7 @@ class Mtm_Initialise_Customizer_Settings {
 			)
 		);
 		$wp_customize->add_control(
-			new Mtm_Toggle_Switch_Custom_control(
+			new Mtm_Toggle_Switch_Custom_Control(
 				$wp_customize,
 				'social_newtab',
 				array(
@@ -412,7 +412,7 @@ class Mtm_Initialise_Customizer_Settings {
 			)
 		);
 		$wp_customize->add_control(
-			new Mtm_Toggle_Switch_Custom_control(
+			new Mtm_Toggle_Switch_Custom_Control(
 				$wp_customize,
 				'social_rss',
 				array(
@@ -578,7 +578,7 @@ class Mtm_Initialise_Customizer_Settings {
 			)
 		);
 		$wp_customize->add_control(
-			new Mtm_Toggle_Switch_Custom_control(
+			new Mtm_Toggle_Switch_Custom_Control(
 				$wp_customize,
 				'header_search_bar',
 				array(
@@ -641,7 +641,7 @@ class Mtm_Initialise_Customizer_Settings {
 			)
 		);
 		$wp_customize->add_control(
-			new Mtm_Toggle_Switch_Custom_control(
+			new Mtm_Toggle_Switch_Custom_Control(
 				$wp_customize,
 				'error_page_search_bar',
 				array(

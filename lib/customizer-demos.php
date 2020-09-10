@@ -9,61 +9,62 @@
  * Set our Customizer default options
  */
  if ( ! function_exists( 'mtm_generate_demo_defaults' ) ) {
- 	function mtm_generate_demo_defaults() {
- 		$customizer_defaults = array(
- 			'woocommerce_shop_sidebar' => 1,
- 			'woocommerce_product_sidebar' => 0,
- 			'sample_toggle_switch' => 0,
- 			'sample_slider_control' => 48,
- 			'sample_slider_control_small_step' => 2,
- 			'sample_sortable_repeater_control' => '',
- 			'sample_image_radio_button' => 'sidebarright',
- 			'sample_text_radio_button' => 'right',
- 			'sample_image_checkbox' => 'stylebold,styleallcaps',
- 			'sample_single_accordion' => '',
- 			'sample_alpha_color' => 'rgba(209,0,55,0.7)',
- 			'sample_wpcolorpicker_alpha_color' => 'rgba(55,55,55,0.5)',
- 			'sample_wpcolorpicker_alpha_color2' => 'rgba(33,33,33,0.8)',
- 			'sample_pill_checkbox' => 'tiger,elephant,hippo',
- 			'sample_pill_checkbox2' => 'captainmarvel,msmarvel,squirrelgirl',
- 			'sample_pill_checkbox3' => 'author,categories,comments',
- 			'sample_simple_notice' => '',
- 			'sample_dropdown_select2_control_single' => 'vic',
- 			'sample_dropdown_select2_control_multi' => 'Antarctica/McMurdo,Australia/Melbourne,Australia/Broken_Hill',
- 			'sample_dropdown_select2_control_multi2' => 'Atlantic/Stanley,Australia/Darwin',
- 			'sample_dropdown_posts_control' => '',
- 			'sample_tinymce_editor' => '',
- 			'sample_google_font_select' => json_encode(
- 				array(
- 					'font' => 'Open Sans',
- 					'regularweight' => 'regular',
- 					'italicweight' => 'italic',
- 					'boldweight' => '700',
- 					'category' => 'sans-serif'
- 				)
- 			),
- 			'sample_default_text' => '',
- 			'sample_email_text' => '',
- 			'sample_url_text' => '',
- 			'sample_number_text' => '',
- 			'sample_hidden_text' => '',
- 			'sample_date_text' => '',
- 			'sample_default_checkbox' => 0,
- 			'sample_default_select' => 'jet-fuel',
- 			'sample_default_radio' => 'spider-man',
- 			'sample_default_dropdownpages' => '1548',
- 			'sample_default_textarea' => '',
- 			'sample_default_color' => '#333',
- 			'sample_default_media' => '',
- 			'sample_default_image' => '',
- 			'sample_default_cropped_image' => '',
- 			'sample_date_only' => '2017-08-28',
- 			'sample_date_time' => '2017-08-28 16:30:00',
- 			'sample_date_time_no_past_date' => date( 'Y-m-d' ),
- 		);
+	function mtm_generate_demo_defaults() {
+		$customizer_defaults = array(
+			'woocommerce_shop_sidebar' => 1,
+			'woocommerce_product_sidebar' => 0,
+			'sample_toggle_switch' => 0,
+			'sample_slider_control' => 48,
+			'sample_slider_control_small_step' => 2,
+			'sample_sortable_repeater_control' => '',
+			'sample_image_radio_button' => 'sidebarright',
+			'sample_text_radio_button' => 'right',
+			'sample_image_checkbox' => 'stylebold,styleallcaps',
+			'sample_single_accordion' => '',
+			'sample_alpha_color' => 'rgba(209,0,55,0.7)',
+			'sample_wpcolorpicker_alpha_color' => 'rgba(55,55,55,0.5)',
+			'sample_wpcolorpicker_alpha_color2' => 'rgba(33,33,33,0.8)',
+			'sample_pill_checkbox' => 'tiger,elephant,hippo',
+			'sample_pill_checkbox2' => 'captainmarvel,msmarvel,squirrelgirl',
+			'sample_pill_checkbox3' => 'author,categories,comments',
+			'sample_simple_notice' => '',
+			'sample_dropdown_select2_control_single' => 'vic',
+			'sample_dropdown_select2_control_multi' => 'Antarctica/McMurdo,Australia/Melbourne,Australia/Broken_Hill',
+			'sample_dropdown_select2_control_multi2' => 'Atlantic/Stanley,Australia/Darwin',
+			'sample_dropdown_posts_control' => '',
+			'sample_tinymce_editor' => '',
+			'sample_google_font_select' => json_encode(
+				array(
+					'font' => 'Open Sans',
+					'regularweight' => 'regular',
+					'italicweight' => 'italic',
+					'boldweight' => '700',
+					'category' => 'sans-serif'
+				)
+			),
+			'sample_default_text' => '',
+			'sample_email_text' => '',
+			'sample_url_text' => '',
+			'sample_number_text' => '',
+			'sample_hidden_text' => '',
+			'sample_date_text' => '',
+			'sample_default_checkbox' => 0,
+			'sample_default_select' => 'jet-fuel',
+			'sample_default_radio' => 'spider-man',
+			'sample_default_dropdownpages' => '1548',
+			'sample_dropdown_category_control' => '1',
+			'sample_default_textarea' => '',
+			'sample_default_color' => '#333',
+			'sample_default_media' => '',
+			'sample_default_image' => '',
+			'sample_default_cropped_image' => '',
+			'sample_date_only' => '2017-08-28',
+			'sample_date_time' => '2017-08-28 16:30:00',
+			'sample_date_time_no_past_date' => date( 'Y-m-d' ),
+		);
 
- 		return apply_filters( 'mtm_customizer_defaults', $customizer_defaults );
- 	}
+		return apply_filters( 'mtm_customizer_defaults', $customizer_defaults );
+	}
  }
 
 
@@ -157,7 +158,7 @@ class mtm_initialise_customizer_demo_settings extends mtm_initialise_customizer_
 				'sanitize_callback' => 'mtm_switch_sanitization'
 			)
 		);
-		$wp_customize->add_control( new Mtm_Toggle_Switch_Custom_control( $wp_customize, 'sample_toggle_switch',
+		$wp_customize->add_control( new Mtm_Toggle_Switch_Custom_Control( $wp_customize, 'sample_toggle_switch',
 			array(
 				'label' => __( 'Toggle switch', 'mtm' ),
 				'section' => 'sample_custom_controls_section'
@@ -708,6 +709,33 @@ class mtm_initialise_customizer_demo_settings extends mtm_initialise_customizer_
 			)
 		) );
 
+		// Test of Dropdown Category Control
+		$wp_customize->add_setting(
+			'sample_dropdown_category_control',
+			array(
+				'default'           => $this->defaults['sample_dropdown_category_control'],
+				'transport'         => 'refresh',
+				'sanitize_callback' => 'absint',
+			)
+		);
+		$wp_customize->add_control(
+			new Mtm_Dropdown_Category_Custom_Control(
+				$wp_customize,
+				'sample_dropdown_category_control',
+				array(
+					'label'         => __( 'Dropdown Category Control', 'mtm' ),
+					'description'   => esc_html__( 'Sample Dropdown Category custom control description', 'mtm' ),
+					'section'       => 'sample_custom_controls_section',
+					'dropdown_args' => array(
+						'taxonomy'   => 'category',
+						'orderby'    => 'id',
+						'order'      => 'ASC',
+						'hide_empty' => 1,
+					),
+				)
+			)
+		);
+
 		// Test of TinyMCE control
 		$wp_customize->add_setting( 'sample_tinymce_editor',
 			array(
@@ -885,7 +913,7 @@ class mtm_initialise_customizer_demo_settings extends mtm_initialise_customizer_
 			)
 		);
 
- 		// Test of Standard Select Control
+		// Test of Standard Select Control
 		$wp_customize->add_setting( 'sample_default_select',
 			array(
 				'default' => $this->defaults['sample_default_select'],

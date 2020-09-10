@@ -3,7 +3,7 @@
 	Plugin Name: Site Customizer
 	Description: Customizer Settings for your base theme
 	Author: Marktime Media
-	Version: 1.0.6
+	Version: 1.1
 	Author URI: http://marktimemedia.com
  */
 
@@ -51,7 +51,7 @@ add_action( 'enqueue_block_editor_assets', 'mtm_add_block_editor_assets' );
 
 /** WP Head & Admin Head for Google Fonts **/
 function mtm_add_wp_head_assets() {
-	echo mtm_customizer_css_styles();
+	echo mtm_customizer_css_styles(); // phpcs:ignore
 }
 add_action( 'wp_head', 'mtm_add_wp_head_assets' );
 add_action( 'admin_head', 'mtm_add_wp_head_assets' );
