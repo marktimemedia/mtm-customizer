@@ -548,7 +548,7 @@ class Mtm_Initialise_Customizer_Settings {
 					'section'     => 'header_footer_section',
 					'input_attrs' => array(
 						'toolbar1'     => 'bold italic bullist numlist alignleft aligncenter alignright link',
-						'mediaButtons' => false,
+						'mediaButtons' => false
 					),
 				)
 			)
@@ -585,8 +585,8 @@ class Mtm_Initialise_Customizer_Settings {
 					'label'       => __( 'Display Search Bar', 'mtm' ),
 					'description' => esc_html__( 'Show the search bar in the header', 'mtm' ),
 					'section'     => 'header_footer_section',
-					'priority'    => 1,
-				),
+					'priority'    => 1
+				)
 			)
 		);
 		$wp_customize->selective_refresh->add_partial(
