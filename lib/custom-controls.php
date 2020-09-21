@@ -551,7 +551,7 @@ function mtm_customize_register( $wp_customize ) {
 								'<option value="%s" %s>%s</option>',
 								esc_attr( $post->ID ),
 								selected( $this->value(), $post->ID, false ),
-								esc_html( $post->post_title ),
+								esc_html( $post->post_title )
 							);
 						}
 					}
