@@ -769,7 +769,7 @@ function mtm_customize_register( $wp_customize ) {
 								$font_list_str = '<option value="' . $this->font_list[ $this->font_list_index ]->family . '" ' . selected( $this->font_values->font, $this->font_list[ $this->font_list_index ]->family, false ) . '>' . $this->font_list[ $this->font_list_index ]->family . ' (default)</option>' . $font_list_str;
 							}
 							// Display our list of font options
-							echo wp_kses_post( $font_list_str );
+							echo $font_list_str;
 							?>
 						</select>
 					</div>
@@ -812,9 +812,11 @@ function mtm_customize_register( $wp_customize ) {
 		 * Find the index of the saved font in our multidimensional array of Google Fonts
 		 */
 		public function mtm_getFontIndex( $haystack, $needle ) {
-			foreach ( $haystack as $key => $value ) {
-				if ( $value->family === $needle ) {
-					return $key;
+			if ( $haystack ) {
+				foreach ( $haystack as $key => $value ) {
+					if ( $value->family === $needle ) {
+						return $key;
+					}
 				}
 			}
 			return false;
@@ -823,14 +825,15 @@ function mtm_customize_register( $wp_customize ) {
 		/**
 		 * Return the list of Google Fonts from our json file. Unless otherwise specfied, list will be limited to 30 fonts.
 		 */
-		public function mtm_getGoogleFonts( $count = 30 ) {
+		public function mtm_getGoogleFonts( $count = 50 ) {
 			// Google Fonts json generated from https://www.googleapis.com/webfonts/v1/webfonts?sort=popularity&key=YOUR-API-KEY
 			$font_file = $this->get_mtm_resource_url() . 'lib/google-fonts-alphabetical.json';
 			if ( 'popular' === $this->font_order_by ) {
 				$font_file = $this->get_mtm_resource_url() . 'lib/google-fonts-popularity.json';
 			}
 
-			$request = wp_remote_get( $font_file );
+			// disable ssl verify here because it breaks on certain local installs
+			$request = wp_remote_get( $font_file, array( 'sslverify' => false ) );
 			if ( is_wp_error( $request ) ) {
 				return '';
 			}
