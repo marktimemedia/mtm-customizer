@@ -3,7 +3,7 @@
 	Plugin Name: Site Customizer
 	Description: Customizer Settings for your base theme
 	Author: Marktime Media
-	Version: 1.1.4
+	Version: 1.1.5
 	Author URI: http://marktimemedia.com
  */
 
@@ -23,7 +23,7 @@ define( 'MTM_OPTIONS_FILE_URL', plugin_dir_url( __FILE__ ) );
 if ( ! function_exists( 'mtm_scripts_styles' ) ) {
 	function mtm_scripts_styles() {
 		// Register and enqueue our icon font styles
-		wp_enqueue_style( 'fontawesome', MTM_OPTIONS_FILE_URL . 'css/fontawesome-all.min.css', '', 1 );
+		wp_enqueue_style( 'fontawesome', MTM_OPTIONS_FILE_URL . 'css/fontawesome-all.css', '', 1 );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'mtm_scripts_styles' );

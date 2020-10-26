@@ -586,7 +586,7 @@ class Mtm_Initialise_Customizer_Settings {
 					'description' => esc_html__( 'Show the search bar in the header', 'mtm' ),
 					'section'     => 'header_footer_section',
 					'priority'    => 1,
-				),
+				)
 			)
 		);
 		$wp_customize->selective_refresh->add_partial(
