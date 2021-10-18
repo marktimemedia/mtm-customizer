@@ -104,6 +104,7 @@ if ( ! function_exists( 'the_mtm_footer_logo' ) ) {
 */
 if ( ! function_exists( 'get_mtm_header_text' ) ) {
 	function get_mtm_header_text() {
+		$defaults = mtm_generate_defaults();
 		// wpautop this so that it acts like the new visual text widget, since we're using the same TinyMCE control
 		return wpautop( get_theme_mod( 'header_extra_text', $defaults['header_extra_text'] ) );
 	}
@@ -117,7 +118,8 @@ if ( ! function_exists( 'get_mtm_header_text' ) ) {
 if ( ! function_exists( 'the_mtm_footer_copyright' ) ) {
 	function the_mtm_footer_copyright() {
 
-		$html = '';
+		$html     = '';
+		$defaults = mtm_generate_defaults();
 
 		if ( get_theme_mod( 'copyright_text' ) ) { // make sure field value exists
 
@@ -139,6 +141,7 @@ if ( ! function_exists( 'the_mtm_footer_copyright' ) ) {
 */
 if ( ! function_exists( 'get_mtm_footer_text' ) ) {
 	function get_mtm_footer_text() {
+		$defaults = mtm_generate_defaults();
 		// wpautop this so that it acts like the new visual text widget, since we're using the same TinyMCE control
 		return wpautop( get_theme_mod( 'footer_text', $defaults['footer_text'] ) );
 	}
@@ -280,6 +283,7 @@ if ( ! function_exists( 'mtm_get_social_media' ) ) {
 */
 if ( ! function_exists( 'mtm_get_phone_number' ) ) {
 	function mtm_get_phone_number() {
+		$defaults      = mtm_generate_defaults();
 		$contact_phone = get_theme_mod( 'contact_phone', $defaults['contact_phone'] );
 		if ( ! empty( $contact_phone ) ) {
 			return sprintf(

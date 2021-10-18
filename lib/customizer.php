@@ -27,10 +27,10 @@ class Mtm_Initialise_Customizer_Settings {
 		// Register our visual controls
 		add_action( 'customize_register', array( $this, 'mtm_register_visual_controls' ) );
 
-		if ( $font_option ) {
+		// if ( $font_option ) {
 			// Register our font controls
 			add_action( 'customize_register', array( $this, 'mtm_register_font_controls' ) );
-		}
+		// }
 
 		// Register our social media controls
 		add_action( 'customize_register', array( $this, 'mtm_register_social_controls' ) );
